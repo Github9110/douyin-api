@@ -20,9 +20,8 @@
 | room_id | 是 | string | 直播间id |
 
 
-___________________
-短视频直播数据采集接口SDK请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 ##  返回示例
 ```json

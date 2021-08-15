@@ -11,9 +11,8 @@ frida
 Pycharm
 root 真机（Android） or 模拟器
 
-___________________
-数据采集接口请求参数和返回数据更多信息请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 2、反编译：
 Apk 直接丢入 Jadx-gui or Apk==>zip ==> 解压 ==> .dex 全部打包丢入 Jadx-gui
@@ -56,9 +55,8 @@ native 修饰的 leviathan （）函数， 对应的方法体在最早加载的 
 参数1: -1
 参数2: 十位时间戳（来自url参数中的十三位时间戳）同 x-khronos 相同。
 
-___________________
-数据采集接口请求参数和返回数据更多信息请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 参数3: post参数的data 部分，就是下图中的r0
 ![image.png](https://cdn.nlark.com/yuque/0/2020/png/97322/1607128267306-c39fe6d1-1462-4adf-abb9-aa74ab89adcf.png#align=left&display=inline&height=102&name=image.png&originHeight=204&originWidth=1014&size=422896&status=done&style=none&width=507)

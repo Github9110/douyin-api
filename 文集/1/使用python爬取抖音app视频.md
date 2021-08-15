@@ -14,9 +14,8 @@ app自动化工具：appium
 3、将1和2相结合达到自动化爬虫的效果
 
 
-___________________
-需要数据采集接口SDK请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 ## 一、mitmproxy/mitmdump抓包
 

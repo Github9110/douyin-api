@@ -5,9 +5,8 @@
 这篇文章的主要内容是解决在遇到APP没有使用Android自带的HTTP客户端进行请求，并且对HTTP客户端的代码进行了混淆，导致通用工具JustTrustMe失效的问题。而中级篇中除了JustTrustMe以外的所有方法也都会对这种情况束手无策，原因是中级篇中的1、3、4方法本质上针对的是Android 7.0+系统增加的SSL Pinning方案，而无法对各个HTTP客户端自己实现的检测方案生效。（听说有个叫车速拍的APP就是这种类型呢）
 那么应该怎么做才能抓到这类APP的包呢？很简单，依然是使用JustTrustMe之类的Hook工具就好了，只不过我们需要针对混淆后的名字对原来Hook的部分进行特殊处理。
 
-___________________
-数据采集接口请求参数和返回数据更多信息请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 ---
 
@@ -88,9 +87,8 @@ JustTrustMe对okhttp3的证书检测Hook![image.png](https://cdn.nlark.com/yuque
 抓包查看请求
 ![image.png](https://cdn.nlark.com/yuque/0/2020/png/97322/1607219066215-5d1276e1-38c7-408d-acbe-458702b53e55.png#align=left&display=inline&height=125&name=image.png&originHeight=250&originWidth=850&size=203676&status=done&style=none&width=425)
 User-Agent部分
-___________________
-数据采集接口请求参数和返回数据更多信息请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 和平时遇到SSL Pinning的情况一样，这里只会抓到一个CONNECT请求，注意右边的headers，从User-Agent中可以看出这个APP使用的是okhttp3，那么我们在混淆后的代码中定位检测部分代码的位置时，就只需要对照着okhttp3的原始代码来找就好了（其他HTTP客户端同理）。当然了，也不排除有些APP会把User-Agent改掉，如果从User-Agent上看不出来的话，那就看一下反编译出来的源代码部分结构，看看有没有像okhttp3之类的这种特别明显的HTTP客户端的名字，有的话就把它干掉就好了。
 

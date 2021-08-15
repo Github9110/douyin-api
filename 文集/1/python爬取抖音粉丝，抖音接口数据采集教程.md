@@ -16,9 +16,8 @@ http://主机地址/douyin/user/followers?token=xxx&uid=100000004548&cursor=0
 GET
 ```
 
-___________________
-短视频直播数据采集接口SDK请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 ### 参数
 | 字段 | 类型 | 说明 |

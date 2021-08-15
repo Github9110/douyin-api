@@ -63,7 +63,6 @@
 将session_key嵌套到headers里的Cookie里即可
 
 
-___________________
-请求参数和返回数据更多信息请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 免责申明：此内容仅供学习交流使用，不得用于商业用途，若侵犯贵公司的权益，联系作者删除

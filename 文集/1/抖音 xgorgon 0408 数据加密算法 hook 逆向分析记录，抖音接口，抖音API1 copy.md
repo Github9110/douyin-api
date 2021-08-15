@@ -5,9 +5,8 @@
 
 #### X-Gorgon是对cookie,X-SS-STUB,X-Khronos,Url进行混合加密之后的参数。这里也区分情况，有些接口只有url和X-Khronos参与接口加密，有些是url，X-Khronos，X-SS-STUB参与接口加密，有些则是所有都进行接口加密。
 
-___________________
-数据采集接口请求参数和返回数据更多信息请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________ 
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+ 
 
 # 概述
 抖音版本里面加了好几个算法，有as,cp(早期就这两个），mas,X-Gorgon，X-SS-STUB，X-Khronos算法，很多关键key之间有相互关联，只要有一个环节算错了，就会请求不到数据。目前版本的抖音加了很多的验证，及代码混淆，难度偏大。
@@ -170,9 +169,8 @@ Java.perform(function() {
 
 ![](https://cdn.nlark.com/yuque/0/2020/png/97322/1606705695985-2900b1c5-ea73-4dd2-b47f-6cb38ceafca9.png#align=left&display=inline&height=650&originHeight=650&originWidth=1434&size=0&status=done&style=none&width=1434)
 
-___________________
-数据采集接口请求参数和返回数据更多信息请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 ## 3.总结：
 以上就是对抖音对一个简单的x-gorgon的分析笔记过程，希望能够有所帮助，也能够对自身的产品安全方面进行一个参考借鉴。

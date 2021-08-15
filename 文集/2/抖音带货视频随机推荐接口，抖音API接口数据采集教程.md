@@ -26,9 +26,8 @@ GET
 | cursor | int | 翻页游标，初始为1，第二页则传2，以此类推 |
 
 
-___________________
-数据采集接口请求参数和返回数据更多信息请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 ### 返回示例
 ```json

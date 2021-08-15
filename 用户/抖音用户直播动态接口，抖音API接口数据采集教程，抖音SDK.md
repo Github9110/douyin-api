@@ -25,9 +25,8 @@ GET
 | uid | int | 用户id|
 | max_time | int | 翻页游标，初始为0，根据结果返回的max_time传入作为下一页翻页参数 |
 
-___________________
-短视频直播数据采集接口SDK请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 ### 返回示例
 ```json

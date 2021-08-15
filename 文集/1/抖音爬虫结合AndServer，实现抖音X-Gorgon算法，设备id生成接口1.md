@@ -8,9 +8,8 @@ implementation 'com.yanzhenjie.andserver:api:2.0.5'
 annotationProcessor 'com.yanzhenjie.andserver:processor:2.0.5'
 implementation 'com.alibaba:fastjson:1.1.71.android'
 ```
-___________________
-数据采集接口请求参数和返回数据更多信息请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 - 接口类编写
 ```
@@ -606,9 +605,8 @@ private Thread.UncaughtExceptionHandler handler = (t, e) -> {
 - request
 ![](https://cdn.nlark.com/yuque/0/2020/png/97322/1607219197321-736535d7-cdf0-44a9-af65-f96c65dd1fe3.png#align=left&display=inline&height=644&originHeight=644&originWidth=1240&size=0&status=done&style=none&width=1240)
 
-___________________
-数据采集接口请求参数和返回数据更多信息请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 ## Cookie获取方式
 有爬取登录接口实现的，但其实有一种简单的方式就是二维码登录，但是涉及到一些隐秘性这里就不公开说明了。

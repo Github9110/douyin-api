@@ -5,9 +5,8 @@
 我这里使用模拟器抓的包，params里面有设备信息：device_type、device_brand、device_platform、device_id
 DEVICEID可唯一标识一个存储设备，搜索接口基于该参数做有一定的请求限制。
 （我贴出来的参数中 设备id是假的，需要更换为自己的）
-___________________
-数据采集接口请求参数和返回数据更多信息请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 Post表单参数：
 ```

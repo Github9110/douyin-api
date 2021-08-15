@@ -269,6 +269,5 @@ public class NetUtils {
 我这里在权限管理设置了自动运行，可以保持服务的运行。（这个地方还是根据系统有大小差异）
 至此使用 App 起 http 服务调 so 就完成了
 
-___________________
-接口请求参数和返回数据更多信息请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+

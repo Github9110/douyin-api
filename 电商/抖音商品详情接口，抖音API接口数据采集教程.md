@@ -24,9 +24,8 @@ GET
 | token | string | 接口授权码 |
 | pid	 | int | 商品的promotion_id |
 
-___________________
-数据采集接口请求参数和返回数据更多信息请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 
 ### 返回示例

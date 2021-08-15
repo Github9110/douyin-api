@@ -27,9 +27,8 @@ GET
 | keyword | string | 搜索关键词 |
 | cursor | int | 翻页游标，根据结果返回的cursor传入作为下一页翻页参数，初始为0 |
 
-___________________
-需要数据采集接口SDK请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 ### 返回示例
 ```json

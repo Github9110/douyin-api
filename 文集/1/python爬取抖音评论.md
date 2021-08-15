@@ -12,13 +12,8 @@ fiddle 安装及配置
 ​
 
 
----
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
 
-
-
-需要短视频直播数据采集接口SDK请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-
----
 
 
 

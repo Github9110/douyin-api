@@ -26,9 +26,8 @@ GET
 | token | string | 接口授权码 |
 | uid | string | 用户id，多个用逗号（,）隔开，最多10个 |
 
-___________________
-短视频直播数据采集接口SDK请[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)
-___________________
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 ### 返回示例
 ```json
