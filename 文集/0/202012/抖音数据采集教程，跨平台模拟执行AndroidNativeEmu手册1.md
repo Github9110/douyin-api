@@ -16,10 +16,17 @@ AndroidNativeEmu是基于Unicron实现的一个指令解析器, 让您能够跨�
 - 支持 VFP
 - 支持文件系统（也就是说你可以模拟maps、status等文件）
 
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
+
 [项目地址](https://github.com/AeonLucid/AndroidNativeEmu)
 
 ## 安装过程
-环境要求: python 3.7 (**注意必须是3.7版本, 我使用3.6装keystone的时候踩了坑**)<br> <br>自测系统环境: win7<br> <br>1.Clone 该项目
+环境要求: python 3.7 (**注意必须是3.7版本, 我使用3.6装keystone的时候踩了坑**)
+ 
+自测系统环境: win7
+ 
+1.Clone 该项目
 ```python
 git clone https://github.com/AeonLucid/AndroidNativeEmu.git
 ```
@@ -29,7 +36,8 @@ pip install -r requirements.txt
 ```
 > 安装keystone-engine可能会失败(反正我是没装上)
 
- <br>**解决方案**:
+ 
+**解决方案**:
 > 1. 克隆keystone仓库: git clone [https://github.com/keystone-engine/keystone.git](https://github.com/keystone-engine/keystone.git)
 > 1. 打开keystone\bindings文件夹安装: python setup.py install
 > 1. 下载对应系统和版本dll(因为我是win), 下载链接: [http://www.keystone-engine.org/download/](http://www.keystone-engine.org/download/)
@@ -46,7 +54,13 @@ pip install -r requirements.txt
 ```python
 python example.py
 ```
-5.不出意外的话就可以看到结果了<br> <br>![](https://cdn.nlark.com/yuque/0/2020/jpeg/97322/1609416900849-1e8b648b-1d99-4707-9981-9dc67d8401a9.jpeg#align=left&display=inline&height=304&margin=%5Bobject%20Object%5D&originHeight=304&originWidth=873&size=0&status=done&style=none&width=873)
+
+ 
+5.不出意外的话就可以看到结果了
+ 
+![](https://cdn.nlark.com/yuque/0/2020/jpeg/97322/1609416900849-1e8b648b-1d99-4707-9981-9dc67d8401a9.jpeg#align=left&display=inline&height=304&originHeight=304&originWidth=873&size=0&status=done&style=none&width=873)
+
+ 
 
 ## 例子文件阅读
 ```python
@@ -192,7 +206,9 @@ except UcError as e:
 ```
 
 ## RuntimeError: Unhandled syscall x (x) at 解决
-这个错误是因为没有实现对应syscall导致的, 缺少什么函数, 自己写一个函数绑定一下, 返回给他需要的值就可以了, 比如getpid, 那么自己写的函数随便返回一个整形就可以了<br> <br>在syscall_hooks.py文件里, 可以看到作者已经实现的函数
+这个错误是因为没有实现对应syscall导致的, 缺少什么函数, 自己写一个函数绑定一下, 返回给他需要的值就可以了, 比如getpid, 那么自己写的函数随便返回一个整形就可以了
+ 
+在syscall_hooks.py文件里, 可以看到作者已经实现的函数
 ```python
 self._syscall_handler.set_handler(0x4E, "gettimeofday", 2, self._handle_gettimeofday)
 self._syscall_handler.set_handler(0xAC, "prctl", 5, self._handle_prctl)
@@ -217,7 +233,11 @@ set_handler函数参数:
 ```
 
 ## 执行结果
-![](https://cdn.nlark.com/yuque/0/2020/jpeg/97322/1609416901576-43662189-a30f-4ebd-b6c8-90226da0b31f.jpeg#align=left&display=inline&height=252&margin=%5Bobject%20Object%5D&originHeight=252&originWidth=1012&size=0&status=done&style=none&width=1012)
+
+ 
+![](https://cdn.nlark.com/yuque/0/2020/jpeg/97322/1609416901576-43662189-a30f-4ebd-b6c8-90226da0b31f.jpeg#align=left&display=inline&height=252&originHeight=252&originWidth=1012&size=0&status=done&style=none&width=1012)
+
+ 
 
 # 实战一款风控SO
 
@@ -306,7 +326,14 @@ except UcError as e:
     print("Exit at %x" % emulator.mu.reg_read(UC_ARM_REG_PC))
     raise
 ```
-**执行结果:**<br>![](https://cdn.nlark.com/yuque/0/2020/jpeg/97322/1609416901152-4a1146ac-d8be-42d0-bb49-6efb59ef6a33.jpeg#align=left&display=inline&height=337&margin=%5Bobject%20Object%5D&originHeight=337&originWidth=1302&size=0&status=done&style=none&width=1302)<br> <br>可以看见, 函数已经调用成功, 并且已经成功获取返回值和参数, 不过检测出风险环境了(因为我的vfs文件都是从虚拟机里拷贝出来的), 接下来就可以分析检测点了!~~
+
+ 
+**执行结果:**
+![](https://cdn.nlark.com/yuque/0/2020/jpeg/97322/1609416901152-4a1146ac-d8be-42d0-bb49-6efb59ef6a33.jpeg#align=left&display=inline&height=337&originHeight=337&originWidth=1302&size=0&status=done&style=none&width=1302)
+ 
+可以看见, 函数已经调用成功, 并且已经成功获取返回值和参数, 不过检测出风险环境了(因为我的vfs文件都是从虚拟机里拷贝出来的), 接下来就可以分析检测点了!~~
+
+ 
 
 ## 过检测
 1.通过执行日志分析, 发现频繁访问了build.prop, maps等系统环境, 猜测可能是通过这些文件来判断的, 这里列出个别几个
@@ -320,13 +347,17 @@ except UcError as e:
 2019-09-21 16:08:27,886    INFO         androidemu.vfs.file_system | File opened '/proc/self/status'
 2019-09-21 16:08:27,887   DEBUG    androidemu.cpu.syscall_handlers | Executing syscall fstat64(0000000a, 000ff3e8) at 0xcbc1b314
 ```
-2.通过反复测试, 修改对应文件中的关键信息, 最终成功躲过该风控模块的环境检测<br> <br>如下:<br> <br>![](https://cdn.nlark.com/yuque/0/2020/jpeg/97322/1609416900630-70bbb8aa-db83-45a9-af86-b1177828b226.jpeg#align=left&display=inline&height=310&margin=%5Bobject%20Object%5D&originHeight=310&originWidth=1203&size=0&status=done&style=none&width=1203)
+
+ 
+2.通过反复测试, 修改对应文件中的关键信息, 最终成功躲过该风控模块的环境检测
+ 
+如下:
+ 
+![](https://cdn.nlark.com/yuque/0/2020/jpeg/97322/1609416900630-70bbb8aa-db83-45a9-af86-b1177828b226.jpeg#align=left&display=inline&height=310&originHeight=310&originWidth=1203&size=0&status=done&style=none&width=1203)
+
+ 
 
 ## 总结
-该项目是通过Unicron来实现的, Unicorn 是一款非常优秀的跨平台模拟执行框架, 通过上帝视角来调试和调用二进制代码, 几乎可以很清晰发现反调试和检测手段, 而Unicorn的应用绝不仅仅只是个虚拟机, 可以实现很多骚操作, 再次感谢QEMU, Unicron, AndroidNativeEmu等等这些开源大神, 是这些人的分享精神推进了整个圈子的技术迭代。<br>
-<br>
+该项目是通过Unicron来实现的, Unicorn 是一款非常优秀的跨平台模拟执行框架, 通过上帝视角来调试和调用二进制代码, 几乎可以很清晰发现反调试和检测手段, 而Unicorn的应用绝不仅仅只是个虚拟机, 可以实现很多骚操作, 再次感谢QEMU, Unicron, AndroidNativeEmu等等这些开源大神, 是这些人的分享精神推进了整个圈子的技术迭代。
 
->
-> 短视频、直播电商数据采集、分析服务，请联系微信：1764328791
-> 免责声明：本文档仅供学习与参考，请勿用于非法用途！否则一切后果自负。
-> 
+
