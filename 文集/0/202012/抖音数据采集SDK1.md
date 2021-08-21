@@ -1,8 +1,9 @@
 # DouyinSDK  抖音SDK 抖音数据采集 抖音直播数据
 
-> 接口参数、返回示例请联系微信：1764328791
+
 > 
 > Github仓库：[DouyinSDK](https://github.com/Video-Hub/douyin-sdk)
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
 
 ## 0. 初始化
 
@@ -221,4 +222,3 @@ result = sdk.SearchVideos('美女')
 
 ```
 
-![](https://visitor-badge.laobi.icu/badge?page_id=Video-Hub.douyin-sdk)

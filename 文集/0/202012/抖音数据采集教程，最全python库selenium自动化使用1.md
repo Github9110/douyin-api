@@ -17,6 +17,8 @@ from selenium import webdriver
  
 driver = webdriver.Chrome()
 ```
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 ### 三、设置浏览器大小
 
@@ -120,9 +122,12 @@ driver.execute_script(js_sql)
 
 ### 九、Frame操作
 
-- 网页中frame的话，需要执行切入切出操作<br>
-- switch_to.from(子iframe的id名称) 切入<br>
-- switch_to.parent_frame(父iframe的id名称) 切出<br>
+- 网页中frame的话，需要执行切入切出操作
+
+- switch_to.from(子iframe的id名称) 切入
+
+- switch_to.parent_frame(父iframe的id名称) 切出
+
 ```python
 from selenium import webdriver
  
@@ -251,9 +256,12 @@ WebDriverWait(driver, 10).until(
 
 ### 十四、前进、后退和刷新
 
-- back 后退<br>
-- forward 前进<br>
-- refresh 刷新浏览器<br>
+- back 后退
+
+- forward 前进
+
+- refresh 刷新浏览器
+
 ```python
 from selenium import webdriver
  
@@ -269,8 +277,10 @@ driver.refresh()
 
 ### 十五、关闭浏览器
 
-- close 关闭当前标签页<br>
-- quit 关闭整个浏览器<br>
+- close 关闭当前标签页
+
+- quit 关闭整个浏览器
+
 ```python
 from selenium import webdriver
  
@@ -279,8 +289,3 @@ driver.get('https://www.baidu.com')
 //打开百度页面后,关闭整个浏览器
 driver.quit()
 ```
-
->
-> 短视频、直播电商数据采集、分析服务，请联系微信：1764328791
-> 免责声明：本文档仅供学习与参考，请勿用于非法用途！否则一切后果自负。
-> 
