@@ -1,16 +1,13 @@
-# 抖音数据采集教程，unicorn 解决 OLLVM 字符串混淆通用方法
+# 抖音数据采集教程，unicorn 解决 OLLVM 字符串混淆通用方法，python爬取抖音视频评论
 
 
->
-> 短视频、直播电商数据采集、分析服务，请联系微信：1764328791
-> 免责声明：本文档仅供学习与参考，请勿用于非法用途！否则一切后果自负。
-> 
 
-<br>虽然是通用方法，但是要了解 so 加载流程、汇编基础、java基础才可以使用哦～
+虽然是通用方法，但是要了解 so 加载流程、汇编基础、java基础才可以使用哦～
 > 这里用的基于 unicorn 的 androidEmu
 
-AndroidNativeEmu 在面对没有加壳的 so 还是挺好用的，不过遇到加壳的 so，就会力不从心的，需要 dbg 才行。<br>
+AndroidNativeEmu 在面对没有加壳的 so 还是挺好用的，不过遇到加壳的 so，就会力不从心的，需要 dbg 才行。
 
+>**了解更多短视频直播数据采集分析接口请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
 
 ---
 
@@ -63,6 +60,8 @@ with open(down_file, 'wb') as df:
     df.write(content)
     print('写出完毕', down_file)
 ```
-**<br>修改 `so_file = so文件地址` 运行后就会导出解密后的 so<br>注意事项：
+**
+修改 `so_file = so文件地址` 运行后就会导出解密后的 so
+注意事项：
 
 - 有的时候so有交叉调用，无法直接解密，需要hook住调用函数，来解决异常

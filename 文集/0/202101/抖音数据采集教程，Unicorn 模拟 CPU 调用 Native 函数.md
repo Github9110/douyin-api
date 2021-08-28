@@ -1,10 +1,5 @@
-# 抖音数据采集教程，Unicorn 模拟 CPU 调用 Native 函数
+# 抖音数据采集教程，Unicorn 模拟 CPU 调用 Native 函数，python爬取抖音视频
 
-
->
-> 短视频、直播电商数据采集、分析服务，请联系微信：1764328791
-> 免责声明：本文档仅供学习与参考，请勿用于非法用途！否则一切后果自负。
-> 
 
 # 接口
 **内存相关**
@@ -37,6 +32,8 @@
 - UC_HOOK_MEM_READ_UNMAPPED
 - UC_HOOK_MEM_WRITE_UNMAPPED
 - UC_HOOK_MEM_FETCH_UNMAPPED
+
+>**了解更多短视频直播数据采集分析接口请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
 
 # Unicorn 上手
 [![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611833663945-dc2ca416-5477-430d-801c-ac044894c679.jpeg#align=left&display=inline&height=400&margin=%5Bobject%20Object%5D&originHeight=400&originWidth=463&size=0&status=done&style=none&width=463)](https://static.zhangkunzhi.com/2020/12/08/16070694429335.jpg?x-oss-process=image/resize,h_400)<br>先自己写个 超级简单的app，并编译（没有开混淆保护）

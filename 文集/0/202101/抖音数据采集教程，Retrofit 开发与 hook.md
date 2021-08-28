@@ -1,17 +1,16 @@
-# 抖音数据采集教程，Retrofit 开发与 hook
+# 抖音数据采集教程，Retrofit 开发与 hook，抖音直播间数据抓取
 
-
->
-> 短视频、直播电商数据采集、分析服务，请联系微信：1764328791
-> 免责声明：本文档仅供学习与参考，请勿用于非法用途！否则一切后果自负。
-> 
 
 # Retrofit
 **文中所有 Retrofit 都是指的 Retrofit2**
 > Retrofit其实我们可以理解为OkHttp的加强版，它也是一个网络加载框架。
 > 底层是使用OKHttp封装的。准确来说,网络请求的工作本质上是OkHttp完成，
 
-而 Retrofit 仅负责网络请求接口的封装。它的一个特点是包含了特别多注解，<br>方便简化你的代码量。<br>优点:
+>**了解更多短视频直播数据采集分析接口请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
+而 Retrofit 仅负责网络请求接口的封装。它的一个特点是包含了特别多注解，
+方便简化你的代码量。
+优点:
 
 1. 超级解耦
 1. 可以配置不同HttpClient来实现网络请求
@@ -25,11 +24,14 @@
 implementation 'com.squareup.retrofit2:retrofit:2.5.0'//Retrofit依赖
 implementation 'com.squareup.retrofit2:converter-gson:2.5.0'//可选依赖，解析json字符所用
 ```
-<br>_<br>网络权限：
+
+_
+网络权限：
 ```
 <uses-permission android:name="android.permission.INTERNET" />
 ```
-_<br>步骤：
+_
+步骤：
 
 1. 定义接口类（封装URL地址和数据请求）
 1. 实例化Retrofit
@@ -38,7 +40,11 @@ _<br>步骤：
 1. Call对象执行请求（异步，同步请求）
 
 ## 创建 Retrofit 实例
-[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1612263581170-3a7f8127-5334-4455-b226-3bbe50d8c2a9.jpeg#align=left&display=inline&height=166&margin=%5Bobject%20Object%5D&originHeight=166&originWidth=460&size=0&status=done&style=none&width=460)](https://static.zhangkunzhi.com/2020/11/05/16045436244620.jpg?x-oss-process=image/resize,h_400)
+
+ 
+[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1612263581170-3a7f8127-5334-4455-b226-3bbe50d8c2a9.jpeg#align=left&display=inline&height=166&originHeight=166&originWidth=460&size=0&status=done&style=none&width=460)](https://static.zhangkunzhi.com/2020/11/05/16045436244620.jpg?x-oss-process=image/resize,h_400)
+
+ 
 ```
 Retrofit retrofit = new Retrofit.Builder()
         .baseUrl("http://localhost:6666")
@@ -137,7 +143,11 @@ private void initPostEnqueue() {
 _
 
 # Retrofit 的注解
-[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1612263581254-aa8ae0c5-19d0-4449-9b76-f59398fa1a94.jpeg#align=left&display=inline&height=400&margin=%5Bobject%20Object%5D&originHeight=400&originWidth=704&size=0&status=done&style=none&width=704)](https://static.zhangkunzhi.com/2020/11/05/16045448596075.jpg?x-oss-process=image/resize,h_400)
+
+ 
+[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1612263581254-aa8ae0c5-19d0-4449-9b76-f59398fa1a94.jpeg#align=left&display=inline&height=400&originHeight=400&originWidth=704&size=0&status=done&style=none&width=704)](https://static.zhangkunzhi.com/2020/11/05/16045448596075.jpg?x-oss-process=image/resize,h_400)
+
+ 
 ```
 //get
 @GET("data/%E7%A6%8F%E5%88%A9/20/2")
@@ -175,7 +185,18 @@ Call<GetBean> getData9(@Url String url_query);
 _
 
 ## 设置 headers
-方式1:<br>[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1612263581405-5b06daa5-51ef-479b-8dcd-2ca4b68ad297.jpeg#align=left&display=inline&height=400&margin=%5Bobject%20Object%5D&originHeight=400&originWidth=652&size=0&status=done&style=none&width=652)](https://static.zhangkunzhi.com/2020/11/05/16045452268291.jpg?x-oss-process=image/resize,h_400)<br>这是单个 headers 和 多个 headers 的普通添加方式<br>方式2:<br>[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1612263581273-5cf77844-8ff1-4ca7-8ea7-d463b06bc1cc.jpeg#align=left&display=inline&height=322&margin=%5Bobject%20Object%5D&originHeight=322&originWidth=678&size=0&status=done&style=none&width=678)](https://static.zhangkunzhi.com/2020/11/05/16045453462587.jpg?x-oss-process=image/resize,h_400)<br>代码添加<br>方式3:<br>[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1612263581264-2529feef-8ada-4cde-b35b-2522e10a04ee.jpeg#align=left&display=inline&height=214&margin=%5Bobject%20Object%5D&originHeight=214&originWidth=683&size=0&status=done&style=none&width=683)](https://static.zhangkunzhi.com/2020/11/05/16045454674736.jpg?x-oss-process=image/resize,h_400)
+
+ 
+方式1:
+[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1612263581405-5b06daa5-51ef-479b-8dcd-2ca4b68ad297.jpeg#align=left&display=inline&height=400&originHeight=400&originWidth=652&size=0&status=done&style=none&width=652)](https://static.zhangkunzhi.com/2020/11/05/16045452268291.jpg?x-oss-process=image/resize,h_400)
+这是单个 headers 和 多个 headers 的普通添加方式
+方式2:
+[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1612263581273-5cf77844-8ff1-4ca7-8ea7-d463b06bc1cc.jpeg#align=left&display=inline&height=322&originHeight=322&originWidth=678&size=0&status=done&style=none&width=678)](https://static.zhangkunzhi.com/2020/11/05/16045453462587.jpg?x-oss-process=image/resize,h_400)
+代码添加
+方式3:
+[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1612263581264-2529feef-8ada-4cde-b35b-2522e10a04ee.jpeg#align=left&display=inline&height=214&originHeight=214&originWidth=683&size=0&status=done&style=none&width=683)](https://static.zhangkunzhi.com/2020/11/05/16045454674736.jpg?x-oss-process=image/resize,h_400)
+
+ 
 
 # 数据解析 (Converter)
 
@@ -186,7 +207,8 @@ Gson：implementation 'com.squareup.retrofit2:converter-gson:2.0.2'
 Jackson：implementation 'com.squareup.retrofit2:converter-jackson:2.0.2'
 ```
 
-<br>对比 Okhttp
+
+对比 Okhttp
 
 - 准确来说，Retrofit 是一个 RESTful 的 HTTP 网络请求框架的封装。
 - 原因：网络请求的工作本质上是 OkHttp 完成，而 Retrofit 仅负责 网络请求接口的封装

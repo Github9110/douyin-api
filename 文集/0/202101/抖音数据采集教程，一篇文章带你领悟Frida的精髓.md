@@ -1,15 +1,30 @@
-# 抖音数据采集教程，一篇文章带你领悟Frida的精髓
+# 抖音数据采集教程，一篇文章带你领悟Frida的精髓，抖音视频搜索、用户搜索数据采集
 
 
 ## frida是啥？
 首先，`frida`是啥，github目录[Awesome Frida](https://github.com/dweinstein/awesome-frida)这样介绍`frida`的：
 > Frida is Greasemonkey for native apps, or, put in more technical terms, it’s a dynamic code instrumentation toolkit. It lets you inject snippets of JavaScript into native apps that run on Windows, Mac, Linux, iOS and Android. Frida is an open source        software.
 
-`frida`是平台原生`app`的`Greasemonkey`，说的专业一点，就是一种动态插桩工具，可以插入一些代码到原生`app`的内存空间去，（动态地监视和修改其行为），这些原生平台可以是`Win`、`Mac`、`Linux`、`Android`或者`iOS`。而且`frida`还是开源的。<br>`Greasemonkey`可能大家不明白，它其实就是`firefox`的一套插件体系，使用它编写的脚本可以直接改变`firefox`对网页的编排方式，实现想要的任何功能。而且这套插件还是外挂的，非常灵活机动。<br>`frida`也是一样的道理。
+>**了解更多短视频直播数据采集分析接口请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
+`frida`是平台原生`app`的`Greasemonkey`，说的专业一点，就是一种动态插桩工具，可以插入一些代码到原生`app`的内存空间去，（动态地监视和修改其行为），这些原生平台可以是`Win`、`Mac`、`Linux`、`Android`或者`iOS`。而且`frida`还是开源的。
+`Greasemonkey`可能大家不明白，它其实就是`firefox`的一套插件体系，使用它编写的脚本可以直接改变`firefox`对网页的编排方式，实现想要的任何功能。而且这套插件还是外挂的，非常灵活机动。
+`frida`也是一样的道理。
 
 ## frida为什么这么火？
-动静态修改内存实现作弊一直是刚需，比如金山游侠，本质上`frida`做的跟它是一件事情。原则上是可以用`frida`把金山游侠，包括`CheatEngine`等“外挂”做出来的。<br>当然，现在已经不是直接修改内存就可以高枕无忧的年代了。大家也不要这样做，做外挂可是违法行为。<br>在逆向的工作上也是一样的道理，使用`frida`可以“看到”平时看不到的东西。出于编译型语言的特性，机器码在CPU和内存上执行的过程中，其内部数据的交互和跳转，对用户来讲是看不见的。当然如果手上有源码，甚至哪怕有带调试符号的可执行文件包，也可以使用`gbd`、`lldb`等调试器连上去看。<br>那如果没有呢？如果是纯黑盒呢？又要对`app`进行逆向和动态调试、甚至自动化分析以及规模化收集信息的话，我们需要的是细粒度的流程控制和代码级的可定制体系，以及不断对调试进行动态纠正和可编程调试的框架，这就是`frida`。<br>`frida`使用的是`python`、`JavaScript`等“胶水语言”也是它火爆的一个原因，可以迅速将逆向过程自动化，以及整合到现有的架构和体系中去，为你们发布“威胁情报”、“数据平台”甚至“AI风控”等产品打好基础。<br>![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1610637137300-64b20351-16b5-4f26-86a5-e6870b50a75b.jpeg#align=left&display=inline&height=309&margin=%5Bobject%20Object%5D&originHeight=309&originWidth=690&size=0&status=done&style=none&width=690)<br>
-<br>官宣屁屁踢甚至将其`敏捷开发`和`迅速适配到现有架构`的能力作为其核心卖点。
+
+ 
+动静态修改内存实现作弊一直是刚需，比如金山游侠，本质上`frida`做的跟它是一件事情。原则上是可以用`frida`把金山游侠，包括`CheatEngine`等“外挂”做出来的。
+当然，现在已经不是直接修改内存就可以高枕无忧的年代了。大家也不要这样做，做外挂可是违法行为。
+在逆向的工作上也是一样的道理，使用`frida`可以“看到”平时看不到的东西。出于编译型语言的特性，机器码在CPU和内存上执行的过程中，其内部数据的交互和跳转，对用户来讲是看不见的。当然如果手上有源码，甚至哪怕有带调试符号的可执行文件包，也可以使用`gbd`、`lldb`等调试器连上去看。
+那如果没有呢？如果是纯黑盒呢？又要对`app`进行逆向和动态调试、甚至自动化分析以及规模化收集信息的话，我们需要的是细粒度的流程控制和代码级的可定制体系，以及不断对调试进行动态纠正和可编程调试的框架，这就是`frida`。
+`frida`使用的是`python`、`JavaScript`等“胶水语言”也是它火爆的一个原因，可以迅速将逆向过程自动化，以及整合到现有的架构和体系中去，为你们发布“威胁情报”、“数据平台”甚至“AI风控”等产品打好基础。
+![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1610637137300-64b20351-16b5-4f26-86a5-e6870b50a75b.jpeg#align=left&display=inline&height=309&originHeight=309&originWidth=690&size=0&status=done&style=none&width=690)
+
+
+ 
+
+官宣屁屁踢甚至将其`敏捷开发`和`迅速适配到现有架构`的能力作为其核心卖点。
 
 ## frida实操环境
 主机：
@@ -18,7 +33,9 @@
 客户端：
 > client：Nexus 6 shamu CPU：Snapdragon 805 Mem：3GSystem：lineage-15.1-20181123-NIGHTLY-shamu，android 8.1
 
-用`kali linux`的原因是工具很全面，权限很单一，只有一个`root`，作为原型开发很好用，否则`python`和`node`的各种权限、环境和依赖实在是烦。用`lineage`因为它有便利的`网络ADB调试`，可以省掉一个`usb`数据线连接的过程。（虽然真实的原因是没钱买新设备，`Nexus 6`[官方](https://developers.google.com/android/images)只支持到`7.1.1`，想上`8.1`只有`lineage`一个选择。）记得需要刷进去一个`lineage`的 [`su`包](https://download.lineageos.org/extras)，获取`root`权限，`frida`是需要在`root`权限下运行的。<br>首先到[官网](https://developer.android.com/studio/releases/platform-tools)下载一个`platform-tools`的linux版本——`SDK Platform-Tools for Linux`，下载解压之后可以直接运行里面的二进制文件，当然也可以把路径加到环境里去。这样`adb`和`fastboot`命令就有了。<br>然后再将`frida-server`[下载](https://github.com/frida/frida/releases)下来，拷贝到安卓机器里去，使用`root`用户跑起来，保持`adb`的连接不要断开。
+用`kali linux`的原因是工具很全面，权限很单一，只有一个`root`，作为原型开发很好用，否则`python`和`node`的各种权限、环境和依赖实在是烦。用`lineage`因为它有便利的`网络ADB调试`，可以省掉一个`usb`数据线连接的过程。（虽然真实的原因是没钱买新设备，`Nexus 6`[官方](https://developers.google.com/android/images)只支持到`7.1.1`，想上`8.1`只有`lineage`一个选择。）记得需要刷进去一个`lineage`的 [`su`包](https://download.lineageos.org/extras)，获取`root`权限，`frida`是需要在`root`权限下运行的。
+首先到[官网](https://developer.android.com/studio/releases/platform-tools)下载一个`platform-tools`的linux版本——`SDK Platform-Tools for Linux`，下载解压之后可以直接运行里面的二进制文件，当然也可以把路径加到环境里去。这样`adb`和`fastboot`命令就有了。
+然后再将`frida-server`[下载](https://github.com/frida/frida/releases)下来，拷贝到安卓机器里去，使用`root`用户跑起来，保持`adb`的连接不要断开。
 ```
 $ ./adb root # might be required
 $ ./adb push frida-server /data/local/tmp/
@@ -129,7 +146,9 @@ script.load()
 # 脚本会持续运行等待输入
 raw_input()
 ```
-然后得保证`frida-server`正在运行，方法可以是在`kali`主机输入`frida-ps -U`命令，如果安卓机上的进程出现了，则`frida-server`运行良好。<br>还需要保证`selinux`是关闭的状态，可以在`adb shell`里，`su -`获得`root`权限之后，输入`setenforce 0`命令来获得，在`Settings→About Phone→SELinux status`里看到`Permissive`，说明`selinux`关闭成功。<br>然后在`kali`主机上输入`python loader.js`，可以观察到安卓机上`com.roysue.demo02`这个`app`马上重启了。然后`$ adb logcat|grep Sum`里的内容也变了。
+然后得保证`frida-server`正在运行，方法可以是在`kali`主机输入`frida-ps -U`命令，如果安卓机上的进程出现了，则`frida-server`运行良好。
+还需要保证`selinux`是关闭的状态，可以在`adb shell`里，`su -`获得`root`权限之后，输入`setenforce 0`命令来获得，在`Settings→About Phone→SELinux status`里看到`Permissive`，说明`selinux`关闭成功。
+然后在`kali`主机上输入`python loader.js`，可以观察到安卓机上`com.roysue.demo02`这个`app`马上重启了。然后`$ adb logcat|grep Sum`里的内容也变了。
 ```
 11-26 21:44:47.875  2420  2420 D Sum     : 80
 11-26 21:44:48.375  2420  2420 D Sum     : 80
@@ -213,7 +232,9 @@ $ adb logcat |grep ROYSUE
 11-26 22:22:39.697  3051  3051 D ROYSUE.Sum: 80
 11-26 22:22:39.698  3051  3051 D ROYSUE.string: lowercase me!!!!!!!!!
 ```
-可以看到`fun()`方法有了重载，在参数是两个`int`的情况下，返回两个`int`之和。在参数为`String`类型之下，则返回字符串的小写形式。<br>另外，`secret()`函数为隐藏方法，在`app`里没有被直接调用。<br>这时候如果我们直接使用上一节里面的`js`脚本和`loader.js`来加载的话，肯定会崩溃。为了看到崩溃的信息，我们对`loader.js`做一些处理。
+可以看到`fun()`方法有了重载，在参数是两个`int`的情况下，返回两个`int`之和。在参数为`String`类型之下，则返回字符串的小写形式。
+另外，`secret()`函数为隐藏方法，在`app`里没有被直接调用。
+这时候如果我们直接使用上一节里面的`js`脚本和`loader.js`来加载的话，肯定会崩溃。为了看到崩溃的信息，我们对`loader.js`做一些处理。
 ```
 def my_message_handler(message , payload): #定义错误处理
     print message
@@ -315,7 +336,10 @@ original call: fun(50, 30)
 这样隐藏方法也被调用起来了。
 
 ## 中级能力：远程调用
-上一小节中我们在安卓机器上使用`js`脚本调用了隐藏函数`secret()`，它在`app`内虽然没有被任何地方调用，但是仍然被我们的脚本“找到”并且“调用”了起来<br>这一小节我们要实现的是，不仅要在跑在安卓机上的`js`脚本里调用这个函数，还要可以在`kali`主机上的`py`脚本里，直接调用这个函数。<br>也就是使用`frida`提供的`RPC`功能（Remote Procedure Call）。<br>安卓`app`不需要有任何修改，这次我们要修改的是`js`脚本和`py`脚本。
+上一小节中我们在安卓机器上使用`js`脚本调用了隐藏函数`secret()`，它在`app`内虽然没有被任何地方调用，但是仍然被我们的脚本“找到”并且“调用”了起来
+这一小节我们要实现的是，不仅要在跑在安卓机上的`js`脚本里调用这个函数，还要可以在`kali`主机上的`py`脚本里，直接调用这个函数。
+也就是使用`frida`提供的`RPC`功能（Remote Procedure Call）。
+安卓`app`不需要有任何修改，这次我们要修改的是`js`脚本和`py`脚本。
 ```python
 $ nano s3.js
 ```
@@ -393,7 +417,8 @@ choice:1
 这样我们就实现了在`kali`主机上直接调用安卓`app`内部的函数的能力。
 
 ## 高级能力：互联互通、动态修改
-最后我们要实现的功能是，我们不仅仅可以在`kali`主机上调用安卓`app`里的函数。我们还可以把数据从安卓`app`里传递到`kali`主机上，在主机上进行修改，再传递回安卓`app`里面去。<br>我们编写这样一个`app`，其中最核心的地方在于判断用户是否为`admin`，如果是，则直接返回错误，禁止登陆。如果不是，则把用户和密码上传到服务器上进行验证。
+最后我们要实现的功能是，我们不仅仅可以在`kali`主机上调用安卓`app`里的函数。我们还可以把数据从安卓`app`里传递到`kali`主机上，在主机上进行修改，再传递回安卓`app`里面去。
+我们编写这样一个`app`，其中最核心的地方在于判断用户是否为`admin`，如果是，则直接返回错误，禁止登陆。如果不是，则把用户和密码上传到服务器上进行验证。
 ```python
 package com.roysue.demo04;
 import android.support.v7.app.AppCompatActivity;
@@ -427,7 +452,14 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 ```
-最终跑起来之后，效果就是这样。<br>![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1610637137140-77b19bcb-9e66-4a70-ad37-d1a61281f91b.jpeg#align=left&display=inline&height=1227&margin=%5Bobject%20Object%5D&originHeight=1227&originWidth=690&size=0&status=done&style=none&width=690)<br>我们的目标就是在`kali`主机上“得到”输入框输入的内容，并且修改其输入的内容，并且“传输”给安卓机器，使其通过验证。也就是说，我们哪怕输入`admin`的账户和密码，也可以绕过本地校验，进行登陆的操作。<br>所以最终安卓端的`js`代码的逻辑就是，截取输入，传输给`kali`主机，暂停执行，得到`kali`主机传回的数据之后，继续执行。形成代码如下：
+
+ 
+最终跑起来之后，效果就是这样。
+![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1610637137140-77b19bcb-9e66-4a70-ad37-d1a61281f91b.jpeg#align=left&display=inline&height=1227&originHeight=1227&originWidth=690&size=0&status=done&style=none&width=690)
+我们的目标就是在`kali`主机上“得到”输入框输入的内容，并且修改其输入的内容，并且“传输”给安卓机器，使其通过验证。也就是说，我们哪怕输入`admin`的账户和密码，也可以绕过本地校验，进行登陆的操作。
+所以最终安卓端的`js`代码的逻辑就是，截取输入，传输给`kali`主机，暂停执行，得到`kali`主机传回的数据之后，继续执行。形成代码如下：
+
+ 
 ```python
 Java.perform(function () {
     var tv_class = Java.use("android.widget.TextView");
@@ -485,10 +517,6 @@ encoded data: YWRtaW46YmJiYg==
 Modified data sent
 string_to_recv: YWRtaW46YmJiYg==
 ```
-动态修改输入内容就这样实现了。<br>
+动态修改输入内容就这样实现了。
 
 
->
-> 短视频、直播电商数据采集、分析服务，请联系微信：1764328791
-> 免责声明：本文档仅供学习与参考，请勿用于非法用途！否则一切后果自负。
-> 
