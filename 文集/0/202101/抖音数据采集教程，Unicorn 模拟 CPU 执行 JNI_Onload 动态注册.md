@@ -1,18 +1,20 @@
-# 抖音数据采集教程，Unicorn 模拟 CPU 执行 JNI_Onload 动态注册
+# 抖音数据采集教程，Unicorn 模拟 CPU 执行 JNI_Onload 动态注册，抖音数据爬取
 
-
->
-> 短视频、直播电商数据采集、分析服务，请联系微信：1764328791
-> 免责声明：本文档仅供学习与参考，请勿用于非法用途！否则一切后果自负。
-> 
 
 # Unicorn 模拟 JNI_Onload
 > 目标 调用 JNI_OnLoad
 
 
 # JNI_OnLoad 如图
-[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611917999555-a2c0db94-9acd-454b-826c-a9c156453177.jpeg#align=left&display=inline&height=400&margin=%5Bobject%20Object%5D&originHeight=400&originWidth=1160&size=0&status=done&style=none&width=1160)](https://static.zhangkunzhi.com/2020/12/11/16075870157564.jpg?x-oss-process=image/resize,h_400)<br>步骤：
+
+ 
+[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611917999555-a2c0db94-9acd-454b-826c-a9c156453177.jpeg#align=left&display=inline&height=400&originHeight=400&originWidth=1160&size=0&status=done&style=none&width=1160)](https://static.zhangkunzhi.com/2020/12/11/16075870157564.jpg?x-oss-process=image/resize,h_400)
+步骤：
+
+ 
 > 先实现 javavm 中的 GetEnv， （与模拟 jni 过程类似）一共八个函数
+
+>**了解更多短视频直播数据采集分析接口请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
 
 初始化
 ```
@@ -29,7 +31,8 @@
     javavm_pointer=700*4+80
     mu.mem_write(javavm_pointer,struct.pack("I",java_vm_base+40))  # 内容指针，页就是 JNIInvokeInterface 的第一个位置所以要加 40
 ```
-**<br>然后添加 Hook 代码，模拟cpu 执行
+**
+然后添加 Hook 代码，模拟cpu 执行
 
 - 注意： 想要直接通过 R2 的地址读出函数的信息，是有问题的
 - 因为： linker 对加载的时候并不是直接映射的，而是分不通的段进行加载的！！所以位置是不通的。
@@ -37,7 +40,8 @@
 - 涉及： 依赖库加载，符号的解析等等工作
 - 便捷解决： AndroidNativeEmu 已经封装好了 linker， 并且可以模拟 syscall 的执行，还提供了对函数的 hook 功能
 
-代码如下<br>tool
+代码如下
+tool
 ```
 import unicorn
 import capstone
@@ -78,7 +82,9 @@ if __name__ == "__main__":
         CODE=f.read() 
     # tl.capstone_print(CODE, 0x0B58, 10)
 ```
-**<br>_ _<br>core
+**
+_ _
+core
 ```
 import unicorn
 import struct
@@ -226,5 +232,13 @@ if __name__ == "__main__":
     tl.capstone_print(CODE, 0xc00)
     init_java_vm(mu)  # 初始化 java vm
 ```
-**<br>_ _<br>运行效果<br>[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611917999578-9a48ee5a-9539-4bdc-8e7b-7877fc2172aa.jpeg#align=left&display=inline&height=564&margin=%5Bobject%20Object%5D&originHeight=564&originWidth=621&size=0&status=done&style=none&width=621)](https://static.zhangkunzhi.com/2020/12/11/16076572521230.jpg?x-oss-process=image/resize,h_700)<br>
+
+ 
+**
+_ _
+运行效果
+[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611917999578-9a48ee5a-9539-4bdc-8e7b-7877fc2172aa.jpeg#align=left&display=inline&height=564&originHeight=564&originWidth=621&size=0&status=done&style=none&width=621)](https://static.zhangkunzhi.com/2020/12/11/16076572521230.jpg?x-oss-process=image/resize,h_700)
+
+
+ 
 

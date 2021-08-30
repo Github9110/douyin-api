@@ -1,10 +1,7 @@
-# 抖音数据采集教程，Unicorn 模拟 CPU 指令并 Hook CPU 执行状态
+# 抖音数据采集教程，Unicorn 模拟 CPU 指令并 Hook CPU 执行状态，抖音数据爬取
 
 
->
-> 短视频、直播电商数据采集、分析服务，请联系微信：1764328791
-> 免责声明：本文档仅供学习与参考，请勿用于非法用途！否则一切后果自负。
-> 
+
 
 # 添加内存访问 hook 回调
 参数
@@ -14,6 +11,8 @@
 - size: 读或写的长度
 - value: 写入的值（type=read时无视）
 - user_data: hook_add 设置的 user_data 参数
+
+>**了解更多短视频直播数据采集分析接口请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
 
 # 添加内存访问异常处理 hook 回调
 参数
@@ -26,7 +25,11 @@
 - 返回值: 真（继续模拟执行） 假（停止模拟执行）
 
 # 模拟 cpu 执行 mov 指令
-目标:<br>执行普通的 汇编代码, 模拟让他跑起来<br>`.text:00008ACA 0A 46 MOV R2, R1 ; Rd = Op2 // 将 R1 放到 R2`<br>`.text:00008ACC 03 46 MOV R3, R0 ; Rd = Op2 // 将 R0 放到 R3`<br>上面的指令代码为： `\x0A\x46\x03\x46`
+目标:
+执行普通的 汇编代码, 模拟让他跑起来
+`.text:00008ACA 0A 46 MOV R2, R1 ; Rd = Op2 // 将 R1 放到 R2`
+`.text:00008ACC 03 46 MOV R3, R0 ; Rd = Op2 // 将 R0 放到 R3`
+上面的指令代码为： `\x0A\x46\x03\x46`
 ```
 import unicorn
 import capstone
@@ -103,10 +106,20 @@ if __name__ == "__main__":
     capstone_print(CODE)
     uni_test()
 ```
-**Python**<br>_ 复制_<br>[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611580705426-da54c1cf-ccc2-465d-ab5d-866351940ee2.jpeg#align=left&display=inline&height=306&margin=%5Bobject%20Object%5D&originHeight=306&originWidth=284&size=0&status=done&style=none&width=284)](https://static.zhangkunzhi.com/2020/12/08/16073888115271.jpg?x-oss-process=image/resize,h_400)
+
+ 
+**Python**
+_ 复制_
+[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611580705426-da54c1cf-ccc2-465d-ab5d-866351940ee2.jpeg#align=left&display=inline&height=306&originHeight=306&originWidth=284&size=0&status=done&style=none&width=284)](https://static.zhangkunzhi.com/2020/12/08/16073888115271.jpg?x-oss-process=image/resize,h_400)
+
+ 
 
 # 执行 STR 等内存操作命令
-在上面例子中加入一条 STR 指令<br>`.text:00008B04 04 92 STR R2, [SP,#0x40+var_30] ; Store to Memory // 存寄存器`<br>整个指令代码变成`\x0A\x46\x03\x46\x04\x92`<br>这种情况下如果只是像上面那样写就不行了，因为需要内存操作，与提前映射，否则 hook cpu 操作的时候就会报错。<br>**需要自行添加一个回调函数来主动映射**
+在上面例子中加入一条 STR 指令
+`.text:00008B04 04 92 STR R2, [SP,#0x40+var_30] ; Store to Memory // 存寄存器`
+整个指令代码变成`\x0A\x46\x03\x46\x04\x92`
+这种情况下如果只是像上面那样写就不行了，因为需要内存操作，与提前映射，否则 hook cpu 操作的时候就会报错。
+**需要自行添加一个回调函数来主动映射**
 ```
 def hook_mem_write_unmapped(mu, type, address, size, value, user_data):
     print('\033[1;32m=== Hook cpu ===\033[0m')
@@ -115,7 +128,14 @@ def hook_mem_write_unmapped(mu, type, address, size, value, user_data):
         print("\033[1;32m[主动映射]地址: 0x%x ｜ hook_mem 类型: %d ｜ 大小:%d ｜ 值:0x%x\033[0m" % (address, type, size, value))
     return True  # 返回 True 继续执行，返回 False 则不执行后面的
 ```
-**Python**<br>_ 复制_<br>如此才能执行 STR 指令并成功 Hook CPU 状态<br>[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611580705411-76a92c0f-ca3c-465e-94e7-e448350f6085.jpeg#align=left&display=inline&height=434&margin=%5Bobject%20Object%5D&originHeight=434&originWidth=484&size=0&status=done&style=none&width=484)](https://static.zhangkunzhi.com/2020/12/08/16073890588465.jpg?x-oss-process=image/resize,h_600)
+
+ 
+**Python**
+_ 复制_
+如此才能执行 STR 指令并成功 Hook CPU 状态
+[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611580705411-76a92c0f-ca3c-465e-94e7-e448350f6085.jpeg#align=left&display=inline&height=434&originHeight=434&originWidth=484&size=0&status=done&style=none&width=484)](https://static.zhangkunzhi.com/2020/12/08/16073890588465.jpg?x-oss-process=image/resize,h_600)
+
+ 
 
 ## 执行系统指令与基本块
 如果要模拟执行汇编系统指令与基本块的 Hook， 那么我们也要自行添加回调函数
@@ -134,5 +154,12 @@ def hook_block(mu, address, size, user_data):
     print("\033[0m")
     return
 ```
-**Python**<br>_ 复制_<br>当然这只是个例子代码，执行推出的<br>[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611580705621-97d9b3a2-7d11-468a-be86-97f0549602bd.jpeg#align=left&display=inline&height=800&margin=%5Bobject%20Object%5D&originHeight=800&originWidth=490&size=0&status=done&style=none&width=490)](https://static.zhangkunzhi.com/2020/12/08/16073893320766.jpg?x-oss-process=image/resize,h_800)
+
+ 
+**Python**
+_ 复制_
+当然这只是个例子代码，执行推出的
+[![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611580705621-97d9b3a2-7d11-468a-be86-97f0549602bd.jpeg#align=left&display=inline&height=800&originHeight=800&originWidth=490&size=0&status=done&style=none&width=490)](https://static.zhangkunzhi.com/2020/12/08/16073893320766.jpg?x-oss-process=image/resize,h_800)
+
+ 
 
