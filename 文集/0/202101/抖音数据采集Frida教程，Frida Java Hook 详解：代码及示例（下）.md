@@ -2,14 +2,22 @@
 
 
 
->
-> 短视频、直播电商数据采集、分析服务，请联系微信：1764328791
-> 免责声明：本文档仅供学习与参考，请勿用于非法用途！否则一切后果自负。
-> 
 
 
 ### 1.1 Java层拦截内部类函数
-之前我们已经学习过了`HOOK`普通函数、方法重载、构造函数，现在来更深入的学习`HOOK`在`Android`逆向中，我们也会经常遇到在`Java`层的内部类。`Java`内部类函数，使得我们更难以分析代码。我们在这章节中对内部类进行一个基本了解和使用`FRIDA`对内部类进行钩子拦截处理。什么是内部类？所谓内部类就是在一个类内部进行其他类结构的嵌套操作，它的优点是内部类与外部类可以方便的访问彼此的私有域（包括私有方法、私有属性），所以`Android`中有很多的地方都会使用到内部类，我们来见一个例子也是最直观的，如下图4-17。<br>![](https://cdn.nlark.com/yuque/0/2021/png/97322/1611142720689-457d3df0-9df4-4f2d-a37c-c0c8d4852bee.png#align=left&display=inline&height=723&margin=%5Bobject%20Object%5D&originHeight=485&originWidth=454&size=0&status=done&style=none&width=677)<br>图4-17 User类中的clz类<br>在图4-17中看到`User`类中嵌套了一个`clz`，这样的操作也是屡见不鲜了。在`frida`中，我们可以使用`$`符号对起进行处理。首先打开`jadxgui`软件对代码进行反编译，反编译之后进入`User`类,下方会有一个`smali`的按钮，点击`smali`则会进入`smali`代码，进入`smali`代码直接按`ctrl+f`局部搜索字符串`clz`，因为`clz`是内部类的名称，那么就会搜到`Lcom/roysue/roysueapplication/User\$clz;`，我们将翻译成`java`代码就是：`com.roysue.roysueapplication.User\$clz`，去掉第一个字符串的`L`和`/`以及`;`就构成了内部类的具体类名了，见下图4-18。<br>![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1611142757967-61ce029a-6212-4af2-9496-cae4a793fbbc.png#align=left&display=inline&height=339&margin=%5Bobject%20Object%5D&name=image.png&originHeight=677&originWidth=1080&size=259691&status=done&style=none&width=540)![image.gif](https://cdn.nlark.com/yuque/0/2021/gif/97322/1611142720822-fa9286a5-9da0-4cee-9854-9ab4c83d9dca.gif#align=left&display=inline&height=1&margin=%5Bobject%20Object%5D&name=image.gif&originHeight=1&originWidth=1&size=70&status=done&style=none&width=1)<br>图4-18 smali代码<br>经过上面的分析我们已经得知最重要的部分类的路径：`com.roysue.roysueapplication.User\$clz`，现在来对内部类进行`HOOK`，现在开始编写js脚本。
+
+ 
+之前我们已经学习过了`HOOK`普通函数、方法重载、构造函数，现在来更深入的学习`HOOK`在`Android`逆向中，我们也会经常遇到在`Java`层的内部类。`Java`内部类函数，使得我们更难以分析代码。我们在这章节中对内部类进行一个基本了解和使用`FRIDA`对内部类进行钩子拦截处理。什么是内部类？所谓内部类就是在一个类内部进行其他类结构的嵌套操作，它的优点是内部类与外部类可以方便的访问彼此的私有域（包括私有方法、私有属性），所以`Android`中有很多的地方都会使用到内部类，我们来见一个例子也是最直观的，如下图4-17。
+>**了解更多短视频直播数据采集分析接口请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
+![](https://cdn.nlark.com/yuque/0/2021/png/97322/1611142720689-457d3df0-9df4-4f2d-a37c-c0c8d4852bee.png#align=left&display=inline&height=723&originHeight=485&originWidth=454&size=0&status=done&style=none&width=677)
+图4-17 User类中的clz类
+在图4-17中看到`User`类中嵌套了一个`clz`，这样的操作也是屡见不鲜了。在`frida`中，我们可以使用`$`符号对起进行处理。首先打开`jadxgui`软件对代码进行反编译，反编译之后进入`User`类,下方会有一个`smali`的按钮，点击`smali`则会进入`smali`代码，进入`smali`代码直接按`ctrl+f`局部搜索字符串`clz`，因为`clz`是内部类的名称，那么就会搜到`Lcom/roysue/roysueapplication/User\$clz;`，我们将翻译成`java`代码就是：`com.roysue.roysueapplication.User\$clz`，去掉第一个字符串的`L`和`/`以及`;`就构成了内部类的具体类名了，见下图4-18。
+![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1611142757967-61ce029a-6212-4af2-9496-cae4a793fbbc.png#align=left&display=inline&height=339&name=image.png&originHeight=677&originWidth=1080&size=259691&status=done&style=none&width=540)![image.gif](https://cdn.nlark.com/yuque/0/2021/gif/97322/1611142720822-fa9286a5-9da0-4cee-9854-9ab4c83d9dca.gif#align=left&display=inline&height=1&name=image.gif&originHeight=1&originWidth=1&size=70&status=done&style=none&width=1)
+图4-18 smali代码
+经过上面的分析我们已经得知最重要的部分类的路径：`com.roysue.roysueapplication.User\$clz`，现在来对内部类进行`HOOK`，现在开始编写js脚本。
+
+ 
 
 ### 1.1.1 拦截内部类函数代码示例
 ```json
@@ -69,7 +77,13 @@ setTimeout(function (){
   });
 });
 ```
-当我们执行该脚本时，注入目标进程之后会开始调用`onMatch`函数，每次调用都会打印一次类的名称，当`onMatch`函数回调完成之后会调用一次`onComplete`函数，最后会打印出`class enuemration complete`，见下图。<br>![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611142720570-304d6df1-ff96-45bf-8e26-f317af8753d9.jpeg#align=left&display=inline&height=422&margin=%5Bobject%20Object%5D&originHeight=674&originWidth=1080&size=0&status=done&style=none&width=677)<br>图4-19 枚举所有类
+
+ 
+当我们执行该脚本时，注入目标进程之后会开始调用`onMatch`函数，每次调用都会打印一次类的名称，当`onMatch`函数回调完成之后会调用一次`onComplete`函数，最后会打印出`class enuemration complete`，见下图。
+![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611142720570-304d6df1-ff96-45bf-8e26-f317af8753d9.jpeg#align=left&display=inline&height=422&originHeight=674&originWidth=1080&size=0&status=done&style=none&width=677)
+图4-19 枚举所有类
+
+ 
 
 ### 1.3 Java层枚举类的所有方法并定位方法
 上文已经将类以及实例枚举出来，接下来我们来枚举所有方法，打印指定类或者所有的类的内部方法名称，主要核心功能是通过类的反射方法中的`getDeclaredMethods()`,该`api`属于`JAVAJDK`中自带的`API`，属于`java.lang.Class`包中定义的函数。该方法获取到类或接口声明的所有方法，包括公共、保护、默认（包）访问和私有方法，但不包括继承的方法。当然也包括它所实现接口的方法。在`Java`中它是这样定义的：`public Method[] getDeclaredMethods()；`其返回值是一个`Method`数组，`Method`实际上就是一个方法名称字符串，当然也是一个对象数组，然后我们将它打印出来。
@@ -97,7 +111,13 @@ function hook_overload_5() {
     }
 }
 ```
-我们先定义了一个`enumMethods`方法，其参数`targetClass`是类的路径名称，用于`Java.use`获取类对象本身，获取类对象之后再通过其`.class.getDeclaredMethods()`方法获取目标类的所有方法名称数组，当调用完了`getDeclaredMethods()`方法之后再调用`$dispose`方法释放目标类对象，返回目标类所有的方法名称、返回类型以及函数的权限，这是实现获取方法名称的核心方法，下面一个方法主要用于注入到目标进程中去执行逻辑代码，在`hook_overload_5`方法中先是使用了`Java.perform`方法，再在内部调用`enumMethods`方法获取目标类的所有方法名称、返回类型以及函数的权限，返回的是一个`Method`数组，通过`forEach`迭代器循环输出数组中的每一个值，因为其本身实际就是一个字符串所以直接输出就可以得到方法名称，脚本执行效果如下图4-20。<br>![image.gif](https://cdn.nlark.com/yuque/0/2021/gif/97322/1611142720823-677f9eee-794b-479d-a4b4-b9d5a0a70fec.gif#align=left&display=inline&height=1&margin=%5Bobject%20Object%5D&name=image.gif&originHeight=1&originWidth=1&size=70&status=done&style=none&width=1)![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1611142910674-d05055e4-8bac-4d00-a39e-4b07db8b8f15.png#align=left&display=inline&height=168&margin=%5Bobject%20Object%5D&name=image.png&originHeight=336&originWidth=1080&size=126188&status=done&style=none&width=540)<br>图4-20 脚本执行后效果在图4-17中`clz`只有一个`toString`方法，我们填入参数为`com.roysue.roysueapplication.User$clz`，就能够定位到该类中所有的方法。
+
+ 
+我们先定义了一个`enumMethods`方法，其参数`targetClass`是类的路径名称，用于`Java.use`获取类对象本身，获取类对象之后再通过其`.class.getDeclaredMethods()`方法获取目标类的所有方法名称数组，当调用完了`getDeclaredMethods()`方法之后再调用`$dispose`方法释放目标类对象，返回目标类所有的方法名称、返回类型以及函数的权限，这是实现获取方法名称的核心方法，下面一个方法主要用于注入到目标进程中去执行逻辑代码，在`hook_overload_5`方法中先是使用了`Java.perform`方法，再在内部调用`enumMethods`方法获取目标类的所有方法名称、返回类型以及函数的权限，返回的是一个`Method`数组，通过`forEach`迭代器循环输出数组中的每一个值，因为其本身实际就是一个字符串所以直接输出就可以得到方法名称，脚本执行效果如下图4-20。
+![image.gif](https://cdn.nlark.com/yuque/0/2021/gif/97322/1611142720823-677f9eee-794b-479d-a4b4-b9d5a0a70fec.gif#align=left&display=inline&height=1&name=image.gif&originHeight=1&originWidth=1&size=70&status=done&style=none&width=1)![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1611142910674-d05055e4-8bac-4d00-a39e-4b07db8b8f15.png#align=left&display=inline&height=168&name=image.png&originHeight=336&originWidth=1080&size=126188&status=done&style=none&width=540)
+图4-20 脚本执行后效果在图4-17中`clz`只有一个`toString`方法，我们填入参数为`com.roysue.roysueapplication.User$clz`，就能够定位到该类中所有的方法。
+
+ 
 
 ### 1.4 Java层拦截方法的所有方法重载
 我们学会了枚举所有的类以及类的有方法之后，那我们还想知道如何获取所有的方法重载函数，毕竟在`Android`反编译的源码中方法重载不在少数，对此，一次性`hook`所有的方法重载是非常有必要的学习。我们已经知道在`hook`重载方法时需要写`overload('x')`，也就是说我们需要构造一个重载的数组，并把每一个重载都打印出来。
@@ -146,7 +166,14 @@ function hook_overload_8() {
 ```
 
 ### 1.4.2 拦截方法的所有方法重载代码示例详解
-上面这段代码可以打印出`com.roysue.roysueapplication.Ordinary_Class`类中`add`方法重载的个数以及hook该类中所有的方法重载函数，现在来剖析上面的代码为什么可以对一个类中的所有的方法重载`HOOK`挂上钩子。首先我们定义了三个变量分别是`targetMethod、targetClass、targetClassMethod`，这三个变量主要于定义方法的名称、类名、以及类名+方法名的赋值，首先使用了`Java.use`获取了目标类对象，再获取重载的次数。这里详细说一下如何获取的：`var method_overload = cls[<func_name>].overloads[index];`这句代码可以看出通过`cls`索引`func_name`到类中的方法，而后面写到`overloads[index]`是指方法重载的第`index`个函数，大致意思就是返回了一个`method`对象的第`index`位置的函数。而在代码中写道：`var overloadCount = hook[targetMethod].overloads.length;`，采取的方法是先获取类中某个函数所有的方法重载个数。继续往下走，开始循环方法重载的函数，刚刚开始循环时`hook[targetMethod].overloads[i].implementation`这句对每一个重载的函数进行`HOOK`。这里也说一下`Arguments:Arguments`是`js`中的一个对象，`js`内的每个函数都会内置一个`Arguments`对象实例`arguments`，它引用着方法实参，调用其实例对象可以通过`arguments[]`下标的来引用实际元素，`arguments.length`为函数实参个数,`arguments.callee`引用函数自身。这就是为什么在该段代码中并看不到`arguments`的定义却能够直接调用的原因，因为它是内置的一个对象。好了，讲完了`arguments`咱们接着说，打印参数通过`arguments.length`来循环以及`arguments[j]`来获取实际参数的元素。那现在来看`apply`，`apply`在`js`中是怎么样的存在，`apply`的含义是：应用某一对象的一个方法，用另一个对象替换当前对象，`this[targetMethod].apply(this, arguments);`这句代码简言之就是执行了当前的`overload`方法。执行完当前的`overload`方法并且打印以及返回给真实调用的函数，这样不会使程序错误。那么最终执行效果见下图4-21：<br>![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1611142949014-afa0258a-4e63-4dce-b5d9-59bc9a04db23.png#align=left&display=inline&height=316&margin=%5Bobject%20Object%5D&name=image.png&originHeight=631&originWidth=1000&size=728858&status=done&style=none&width=500)![image.gif](https://cdn.nlark.com/yuque/0/2021/gif/97322/1611142720817-46e41ab4-fe8f-4266-9545-9e8d087103f9.gif#align=left&display=inline&height=1&margin=%5Bobject%20Object%5D&name=image.gif&originHeight=1&originWidth=1&size=70&status=done&style=none&width=1)<br>图4-21 终端显示<br>可以看到成功打印了`add`函数的方法重载的数量以及`hook`打印出来的参数值、返回值！
+
+ 
+上面这段代码可以打印出`com.roysue.roysueapplication.Ordinary_Class`类中`add`方法重载的个数以及hook该类中所有的方法重载函数，现在来剖析上面的代码为什么可以对一个类中的所有的方法重载`HOOK`挂上钩子。首先我们定义了三个变量分别是`targetMethod、targetClass、targetClassMethod`，这三个变量主要于定义方法的名称、类名、以及类名+方法名的赋值，首先使用了`Java.use`获取了目标类对象，再获取重载的次数。这里详细说一下如何获取的：`var method_overload = cls[<func_name>].overloads[index];`这句代码可以看出通过`cls`索引`func_name`到类中的方法，而后面写到`overloads[index]`是指方法重载的第`index`个函数，大致意思就是返回了一个`method`对象的第`index`位置的函数。而在代码中写道：`var overloadCount = hook[targetMethod].overloads.length;`，采取的方法是先获取类中某个函数所有的方法重载个数。继续往下走，开始循环方法重载的函数，刚刚开始循环时`hook[targetMethod].overloads[i].implementation`这句对每一个重载的函数进行`HOOK`。这里也说一下`Arguments:Arguments`是`js`中的一个对象，`js`内的每个函数都会内置一个`Arguments`对象实例`arguments`，它引用着方法实参，调用其实例对象可以通过`arguments[]`下标的来引用实际元素，`arguments.length`为函数实参个数,`arguments.callee`引用函数自身。这就是为什么在该段代码中并看不到`arguments`的定义却能够直接调用的原因，因为它是内置的一个对象。好了，讲完了`arguments`咱们接着说，打印参数通过`arguments.length`来循环以及`arguments[j]`来获取实际参数的元素。那现在来看`apply`，`apply`在`js`中是怎么样的存在，`apply`的含义是：应用某一对象的一个方法，用另一个对象替换当前对象，`this[targetMethod].apply(this, arguments);`这句代码简言之就是执行了当前的`overload`方法。执行完当前的`overload`方法并且打印以及返回给真实调用的函数，这样不会使程序错误。那么最终执行效果见下图4-21：
+![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1611142949014-afa0258a-4e63-4dce-b5d9-59bc9a04db23.png#align=left&display=inline&height=316&name=image.png&originHeight=631&originWidth=1000&size=728858&status=done&style=none&width=500)![image.gif](https://cdn.nlark.com/yuque/0/2021/gif/97322/1611142720817-46e41ab4-fe8f-4266-9545-9e8d087103f9.gif#align=left&display=inline&height=1&name=image.gif&originHeight=1&originWidth=1&size=70&status=done&style=none&width=1)
+图4-21 终端显示
+可以看到成功打印了`add`函数的方法重载的数量以及`hook`打印出来的参数值、返回值！
+
+ 
 
 ### 1.5 Java层拦截类的所有方法
 学会了如何`HOOK`所有方法重载函数后，我们可以把之前学习的整合到一起，来`hook`指定类中的所有方法，也包括方法重载的函数。下面`js`中核心代码是利用重载函数的特点来`HOOK`全部的方法，普通的方法也是一个特殊方法重载，只是它只是一个方法而已，直接把它当作方法重载来`HOOK`就好了，打个比方正方形是特殊的长方形，而长方形是不是特殊的正方形。这个正方形是普通函数，而长方形是重载方法这样大家应该很好理解了~在上一章节中已经知道了如何`hook`方法重载，只是方法名称和类名是写死的，只需要把成员的`targetClass、targetMethod`定义方法中的参数即可,在该例子中拿到指定类所有的所有方法名称，更加灵活使用了，代码如下。
@@ -185,7 +212,13 @@ function hook_overload_9() {
 }
 s1etImmediate(hook_overload_9);
 ```
-执行脚本效果可以看到，`hook`到了`com.roysue.roysueapplication.Ordinary_Class`类中所有的函数，在执行其被`hook`拦截的方法时候，也打印出了每个方法相应的的参数以及返回值，见下图4-22。<br>![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611142720564-89ba39b1-b293-4e2d-81e7-376438162f7d.jpeg#align=left&display=inline&height=539&margin=%5Bobject%20Object%5D&originHeight=860&originWidth=1080&size=0&status=done&style=none&width=677)<br>图4-22 终端运行显示效果
+
+ 
+执行脚本效果可以看到，`hook`到了`com.roysue.roysueapplication.Ordinary_Class`类中所有的函数，在执行其被`hook`拦截的方法时候，也打印出了每个方法相应的的参数以及返回值，见下图4-22。
+![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611142720564-89ba39b1-b293-4e2d-81e7-376438162f7d.jpeg#align=left&display=inline&height=539&originHeight=860&originWidth=1080&size=0&status=done&style=none&width=677)
+图4-22 终端运行显示效果
+
+ 
 
 ### 1.6 Java层拦截类的所有子类
 这里的核心功能也用到了上一小章节中定义的`traceClass`函数，该函数只需要传入一个`class`路径即可对`class`中的函数完成注入`hook`。那么在本小章节来`hook`掉所有类的子类，使我们的脚本更加的灵活方便。通过之前的学习我们已经知道`enumerateLoadedClasses`这个`api`可以枚举所有的类，用它来获取所有的类然后再调用`traceClass`函数就可以对所有类的子进行全面的`hook`。但是一般不会`hook`所有的函数，因为`AndroidAPI`函数实在太多了，在这里我们需要匹配自己需要`hook`的类即可，代码如下。
@@ -312,14 +345,12 @@ setTimeout(function() {
     });
 }, 0);
 ```
-我们`hook`的是`open()`函数，跑起来看下效果：<br>
+我们`hook`的是`open()`函数，跑起来看下效果：
+
 
 ```python
 $ frida -U -f com.whatsapp -l raptor_frida_android_trace_fixed.js --no-pause
 ```
 如图所示`*!open*`根据正则匹配到了`openlog`、`open64`等导出函数，并`hook`了所有这些函数，打印出了其参数以及返回值。接下来想要看哪个部分，只要扔到jadx里，静态“分析”一番，自己随便翻翻，或者根据字符串搜一搜。比如说我们想要看上图中的`com.whatsapp.app.protocol`包里的内容，就可以设置`trace("com.whatsapp.app.protocol")`。可以看到包内的函数、方法、包括重载、参数以及返回值全都打印了出来。这就是`frida`脚本的魅力。当然，脚本终归只是一个工具，你对`Java`、安卓`App`的理解，和你的创意才是至关重要的。接下来可以搭配`Xposed module`看看别人都给`whatsapp`做了哪些模块，`hook`的哪些函数，实现了哪些功能，学习自己写一写。
 
-> 短视频、直播数据实时采集接口，请联系微信：1764328791
 
-
-<br>免责声明：本文档仅供学习与参考，请勿用于非法用途！否则一切后果自负。
