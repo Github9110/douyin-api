@@ -1,16 +1,15 @@
 # 抖音直播间数据采集，ProtoBuf + gRPC 分析请求头
 
 
->
-> 短视频、直播电商数据采集、分析服务，请联系微信：1764328791
-> 免责声明：本文档仅供学习与参考，请勿用于非法用途！否则一切后果自负。
-> 
 
 # 概念
 > Protobuf是Google protocol buffer的简称，是一种语言中立、平台无关、易于扩展的结构化数据序列化技术，可用于数据传输、存储等领域。
 > 与Protoful类似的序列化技术还有XML、JSON、Thrift等，但Protoful更快、更小、更简单，且具备良好的兼容性。
 
 **目前经常运用在 安卓直播弹幕等业务场景中**
+
+
+>**了解更多短视频直播数据采集分析接口请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
 
 # 配置请求头
 
@@ -26,7 +25,8 @@
     return stub.withInterceptors(newAttachHeadersInterceptor(extraHeaders));
   }
 ```
-**<br>自己封装后
+**
+自己封装后
 ```
 private static <T extends AbstractStub<T>> T attachHeaders(T stub, final Map<String, String> headerMap) {
     Metadata extraHeaders = new Metadata();
@@ -106,11 +106,30 @@ Channel channel = ClientInterceptors.intercept(managedChannel, interceptor);
 - 而且还要有一个 添加Header的具体方法
 - 不管 grpc 怎么混淆都离不开这种配置模式
 
-例如这种<br>[![](https://cdn.nlark.com/yuque/0/2021/png/97322/1612183626152-cf7623fb-cc84-488e-ab61-533bb067b6a8.png#align=left&display=inline&height=128&margin=%5Bobject%20Object%5D&originHeight=128&originWidth=1298&size=0&status=done&style=none&width=1298)](https://static.zhangkunzhi.com/typecho/2020/11/25/75898451902823/1606275898.png)<br>注意他们的类型，很明显这种情况可以快速推论
+
+ 
+例如这种
+
+ 
+
+ 
+[![](https://cdn.nlark.com/yuque/0/2021/png/97322/1612183626152-cf7623fb-cc84-488e-ab61-533bb067b6a8.png#align=left&display=inline&height=128&originHeight=128&originWidth=1298&size=0&status=done&style=none&width=1298)](https://static.zhangkunzhi.com/typecho/2020/11/25/75898451902823/1606275898.png)
+
+ 
+
+ 
+注意他们的类型，很明显这种情况可以快速推论
+
+ 
 
 - `z1.c.v.p.a.d.b.f.a.a()` 大概率就是混淆后的 `interceptCall`
 - `z1.c.v.p.a.d.b.f.a.c()` 是添加请求头的函数
 
 
-<br>
 
+
+
+
+___________________ 
+
+免责申明：此内容仅供学习交流使用，若侵犯贵方权益，请联系作者删除 
