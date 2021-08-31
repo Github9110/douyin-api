@@ -1,9 +1,12 @@
 # 抖音数据采集Frida教程，Java、Interceptor、NativePointer(Function/Callback)使用方法及示例
 
-注意，运行以下任何代码时都需要提前启动手机中的`frida-server`文件。<br> 
+注意，运行以下任何代码时都需要提前启动手机中的`frida-server`文件。
+ 
 
 ## 1.1 Java对象
 `Java`是十分哦不，应该说是极其重要的`API`，无论是想对`so`层亦或java层进行拦截，都必须编写`Java.perform`，在使用上面这些`API`时，应该都已经发现了吧~这章我们就来详细看看`Java`对象都有哪些`API`~
+
+>**了解更多短视频直播数据采集分析接口请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
 
 ### 1.1.1 Java.available
 该函数一般用来判断当前进程是否加载了`JavaVM，Dalvik`或`ART`虚拟机，咱们来看代码示例！
@@ -79,7 +82,14 @@ function frida_Java() {
 }       
 setImmediate(frida_Java,0);
 ```
-咱们来看执行的效果图1-7。<br>![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610978198228-40c5b653-a483-4f9a-a5cb-2a76d0844071.png#align=left&display=inline&height=612&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1224&originWidth=2578&size=1399233&status=done&style=none&width=1289)<br>图1-7 终端执行<br>它还有一个好兄弟 `Java.enumerateLoadedClassesSync()`，它返回的是一个数组。
+
+ 
+咱们来看执行的效果图1-7。
+![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610978198228-40c5b653-a483-4f9a-a5cb-2a76d0844071.png#align=left&display=inline&height=612&name=image.png&originHeight=1224&originWidth=2578&size=1399233&status=done&style=none&width=1289)
+图1-7 终端执行
+它还有一个好兄弟 `Java.enumerateLoadedClassesSync()`，它返回的是一个数组。
+
+ 
 
 ### 1.1.4 枚举类加载器Java.enumerateLoadedClasses
 该`api`枚举`Java VM`中存在的类加载器，其有一个回调函数，分别是`onMatch: function (loader)`与`onComplete: function ()`，接着我们来看代码示例。
@@ -108,7 +118,14 @@ function frida_Java() {
 }       
 setImmediate(frida_Java,0);
 ```
-执行的效果图1-8。<br>![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610978226343-e9e22e30-4127-49c8-977d-5019c94f7599.png#align=left&display=inline&height=279&margin=%5Bobject%20Object%5D&name=image.png&originHeight=558&originWidth=2730&size=628890&status=done&style=none&width=1365)<br>图1-8 终端执行<br>它也有一个好兄弟叫`Java.enumerateClassLoadersSync()`也是返回的数组。
+
+ 
+执行的效果图1-8。
+![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610978226343-e9e22e30-4127-49c8-977d-5019c94f7599.png#align=left&display=inline&height=279&name=image.png&originHeight=558&originWidth=2730&size=628890&status=done&style=none&width=1365)
+图1-8 终端执行
+它也有一个好兄弟叫`Java.enumerateClassLoadersSync()`也是返回的数组。
+
+ 
 
 ### 1.1.5 附加调用Java.perform
 该`API`极其重要，`Java.perform（fn）`主要用于当前线程附加到`Java VM`并且调用`fn`方法。我们来看看示例代码及其含义。
@@ -188,7 +205,8 @@ Java.perform(function () {
         }
 });
 ```
-我们通过上面定义`int`数组和`byte`的例子可以知道其定义格式为`Java.array('type',[value1,value2,....]);`那它都支持`type`呢？我们来看看~<br>
+我们通过上面定义`int`数组和`byte`的例子可以知道其定义格式为`Java.array('type',[value1,value2,....]);`那它都支持`type`呢？我们来看看~
+
 
 
 | type | 含义 |
@@ -205,7 +223,13 @@ Java.perform(function () {
 
 
 ### 1.1.10 注册类Java.registerClass(spec)
-`Java.registerClass`：创建一个新的`Java`类并返回一个包装器，其中规范是一个包含：<br>`name`：指定类名称的字符串。<br>`superClass`：（可选）父类。要从 `java.lang.Objec`t 继承的省略。<br>`implements`：（可选）由此类实现的接口数组。<br>`fields`：（可选）对象，指定要公开的每个字段的名称和类型。<br>`methods`：（可选）对象，指定要实现的方法。<br>注册一个类，返回类的实例，下面我贴一个基本的用法~实例化目标类对象并且调用类中的方法
+`Java.registerClass`：创建一个新的`Java`类并返回一个包装器，其中规范是一个包含：
+`name`：指定类名称的字符串。
+`superClass`：（可选）父类。要从 `java.lang.Objec`t 继承的省略。
+`implements`：（可选）由此类实现的接口数组。
+`fields`：（可选）对象，指定要公开的每个字段的名称和类型。
+`methods`：（可选）对象，指定要实现的方法。
+注册一个类，返回类的实例，下面我贴一个基本的用法~实例化目标类对象并且调用类中的方法
 ```python
 Java.perform(function () {
           //注册一个目标进程中的类，返回的是一个类对象
@@ -304,7 +328,9 @@ setImmediate(frida_Java,0);
 该对象功能十分强大，函数原型是`Interceptor.attach(target, callbacks)`:参数`target`是需要拦截的位置的函数地址，也就是填某个`so`层函数的地址即可对其拦截，`target`是一个`NativePointer`参数，用来指定你想要拦截的函数的地址，`NativePointer`我们也学过是一个指针。需要注意的是对于`Thumb`函数需要对函数地址`+1`，`callbacks`则是它的回调函数，分别是以下两个回调函数：
 
 ### 1.2.1 Interceptor.attach
-`onEnter：`函数（`args`）：回调函数，给定一个参数`args`，可用于读取或写入参数作为 `NativePointer` 对象的数组。<br>`onLeave：`函数（`retval`）：回调函数给定一个参数 `retval`，该参数是包含原始返回值的 `NativePointer` 派生对象。可以调用 `retval.replace（1337）` 以整数 `1337` 替换返回值，或者调用 `retval.replace（ptr（"0x1234"））`以替换为指针。请注意，此对象在 `OnLeave` 调用中回收，因此不要将其存储在回调之外并使用它。如果需要存储包含的值，请制作深副本，例如：`ptr（retval.toString（））`。<br>我们来看看示例代码~
+`onEnter：`函数（`args`）：回调函数，给定一个参数`args`，可用于读取或写入参数作为 `NativePointer` 对象的数组。
+`onLeave：`函数（`retval`）：回调函数给定一个参数 `retval`，该参数是包含原始返回值的 `NativePointer` 派生对象。可以调用 `retval.replace（1337）` 以整数 `1337` 替换返回值，或者调用 `retval.replace（ptr（"0x1234"））`以替换为指针。请注意，此对象在 `OnLeave` 调用中回收，因此不要将其存储在回调之外并使用它。如果需要存储包含的值，请制作深副本，例如：`ptr（retval.toString（））`。
+我们来看看示例代码~
 ```python
 //使用Module对象getExportByNameAPI直接获取libc.so中的导出函数read的地址，对read函数进行附加拦截
 Interceptor.attach(Module.getExportByName('libc.so', 'read'), {
@@ -320,7 +346,8 @@ Interceptor.attach(Module.getExportByName('libc.so', 'read'), {
   }
 });
 ```
-通过我们对`Interceptor.attach`函数有一些基本了解了~它还包含一些属性<br>我们来看看示例代码。
+通过我们对`Interceptor.attach`函数有一些基本了解了~它还包含一些属性
+我们来看看示例代码。
 ```
 function frida_Interceptor() {
     Java.perform(function () {
@@ -346,7 +373,14 @@ function frida_Interceptor() {
 setImmediate(frida_Interceptor,0);
 ```
 
-<br>我们注入脚本之后来看看执行之后的效果以及输出的这些都是啥，执行的效果图`1-9`。<br>![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610978494585-97a9f749-30c1-4fc6-a159-e81d4b75a6a5.png#align=left&display=inline&height=330&margin=%5Bobject%20Object%5D&name=image.png&originHeight=660&originWidth=1666&size=324308&status=done&style=none&width=833)<br>图1-9 终端执行
+
+ 
+
+我们注入脚本之后来看看执行之后的效果以及输出的这些都是啥，执行的效果图`1-9`。
+![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610978494585-97a9f749-30c1-4fc6-a159-e81d4b75a6a5.png#align=left&display=inline&height=330&name=image.png&originHeight=660&originWidth=1666&size=324308&status=done&style=none&width=833)
+图1-9 终端执行
+
+ 
 
 ### 1.2.2 Interceptor.detachAll
 简单来说这个的函数的作用就是让之前所有的`Interceptor.attach`附加拦截的回调函数失效。
@@ -372,7 +406,14 @@ function frida_Interceptor() {
     });
 }
 ```
-我来看注入脚本之后的终端是是不是显示了`3`和`123`见下图`1-10`。<br>![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610978514683-d619752f-be28-4892-838d-a18417c8dfbd.png#align=left&display=inline&height=246&margin=%5Bobject%20Object%5D&name=image.png&originHeight=492&originWidth=1518&size=217886&status=done&style=none&width=759)<br>图1-10 终端执行<br> 
+
+ 
+我来看注入脚本之后的终端是是不是显示了`3`和`123`见下图`1-10`。
+![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610978514683-d619752f-be28-4892-838d-a18417c8dfbd.png#align=left&display=inline&height=246&name=image.png&originHeight=492&originWidth=1518&size=217886&status=done&style=none&width=759)
+图1-10 终端执行
+ 
+
+ 
 
 ## 1.3 NativePointer对象
 同等与C语言中的指针
@@ -401,7 +442,14 @@ ptr3: 0x64
 ```
 
 ### 1.3.2 运算符以及指针读写API
-它也能调用以下运算符<br>[![](https://cdn.nlark.com/yuque/0/2021/png/97322/1610978069059-9f2dc103-b328-41f0-89e8-2a0f3f1d0d1c.png#align=left&display=inline&height=1199&margin=%5Bobject%20Object%5D&originHeight=1199&originWidth=808&size=0&status=done&style=none&width=808)](https://p3.ssl.qhimg.com/t0135a7319c873d8d52.png)<br>[![](https://cdn.nlark.com/yuque/0/2021/png/97322/1610978069082-5703ad2c-877e-4228-a4d5-d1cef781a6dc.png#align=left&display=inline&height=693&margin=%5Bobject%20Object%5D&originHeight=693&originWidth=811&size=0&status=done&style=none&width=811)](https://p3.ssl.qhimg.com/t01821e14d1331f0aef.png)<br>看完API含义之后，我们来使用他们，下面该脚本是readByteArray()示例~
+
+ 
+它也能调用以下运算符
+[![](https://cdn.nlark.com/yuque/0/2021/png/97322/1610978069059-9f2dc103-b328-41f0-89e8-2a0f3f1d0d1c.png#align=left&display=inline&height=1199&originHeight=1199&originWidth=808&size=0&status=done&style=none&width=808)](https://p3.ssl.qhimg.com/t0135a7319c873d8d52.png)
+[![](https://cdn.nlark.com/yuque/0/2021/png/97322/1610978069082-5703ad2c-877e-4228-a4d5-d1cef781a6dc.png#align=left&display=inline&height=693&originHeight=693&originWidth=811&size=0&status=done&style=none&width=811)](https://p3.ssl.qhimg.com/t01821e14d1331f0aef.png)
+看完API含义之后，我们来使用他们，下面该脚本是readByteArray()示例~
+
+ 
 ```python
 function frida_NativePointer() {
     Java.perform(function () {
@@ -515,7 +563,9 @@ Memory.readByteArray:
         console.log("readCString():"+newPtrstr.readCString());
 ```
 
-<br>图1-11 终端执行<br> 
+
+图1-11 终端执行
+ 
 
 ## 1.4 NativeFunction对象
 创建新的`NativeFunction`以调用`address`处的函数(用`NativePointer`指定)，其中`rereturn Type`指定返回类型，`argTypes`数组指定参数类型。如果不是系统默认值，还可以选择指定`ABI`。对于可变函数，添加一个‘.’固定参数和可变参数之间的`argTypes`条目，我们来看看官方的例子。
@@ -529,7 +579,9 @@ var returnValue = Memory.alloc(sizeOfLargeObject);
 //调用friendlyFunctionName函数
 friendlyFunctionName(returnValue, thisPtr);
 ```
-我来看看它的格式，函数定义格式为`new NativeFunction(address, returnType, argTypes[, options])，`参照这个格式能够创建函数并且调用`！returnType和argTypes[，]`分别可以填`void、pointer、int、uint、long、ulong、char、uchar、float、double、int8、uint8、int16、uint16、int32、uint32、int64、uint64`这些类型，根据函数的所需要的type来定义即可。<br>在定义的时候必须要将参数类型个数和参数类型以及返回值完全匹配，假设有三个参数都是`int`，则`new NativeFunction(address, returnType, ['int', 'int', 'int'])`，而返回值是`int`则`new NativeFunction(address, 'int', argTypes[, options])`，必须要全部匹配，并且第一个参数一定要是函数地址指针。<br> 
+我来看看它的格式，函数定义格式为`new NativeFunction(address, returnType, argTypes[, options])，`参照这个格式能够创建函数并且调用`！returnType和argTypes[，]`分别可以填`void、pointer、int、uint、long、ulong、char、uchar、float、double、int8、uint8、int16、uint16、int32、uint32、int64、uint64`这些类型，根据函数的所需要的type来定义即可。
+在定义的时候必须要将参数类型个数和参数类型以及返回值完全匹配，假设有三个参数都是`int`，则`new NativeFunction(address, returnType, ['int', 'int', 'int'])`，而返回值是`int`则`new NativeFunction(address, 'int', argTypes[, options])`，必须要全部匹配，并且第一个参数一定要是函数地址指针。
+ 
 
 ## 1.5 NativeCallback对象
 `new NativeCallback(func，rereturn Type，argTypes[，ABI])：`创建一个由`JavaScript`函数`func`实现的新`NativeCallback`，其中`rereturn Type`指定返回类型，`argTypes`数组指定参数类型。您还可以指定`ABI`(如果不是系统默认值)。有关支持的类型和Abis的详细信息，请参见`NativeFunction`。注意，返回的对象也是一个`NativePointer`，因此可以传递给`Interceptor#replace`。当将产生的回调与`Interceptor.replace()`一起使用时，将调用func，并将其绑定到具有一些有用属性的对象，就像`Interceptor.Attach()`中的那样。我们来看一个例子。如下，利用`NativeCallback`做一个函数替换。
@@ -548,10 +600,6 @@ Java.perform(function () {
  
 
 ## 结语
-本篇咱们学习了非常实用的API，如Interceptor对象对so层导出库函数拦截、NativePointer对象的指针操作、NativeFunction对象的实例化so函数的使用等都是当前灰常好用的函数~建议童鞋了多多尝试~<br>
+本篇咱们学习了非常实用的API，如Interceptor对象对so层导出库函数拦截、NativePointer对象的指针操作、NativeFunction对象的实例化so函数的使用等都是当前灰常好用的函数~建议童鞋了多多尝试~
 
 
->
-> 短视频、直播电商数据采集、分析服务，请联系微信：1764328791
-> 免责声明：本文档仅供学习与参考，请勿用于非法用途！否则一切后果自负。
-> 

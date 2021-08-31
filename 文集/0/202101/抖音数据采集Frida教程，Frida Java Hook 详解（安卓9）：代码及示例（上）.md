@@ -75,19 +75,39 @@ hello world!
 
  
 `Java`层的普通方法相当常见，也是我们要学习的基础中的基础，我们先来看几个比较常见的普通的方法，见下图1-1。
+
+ 
 ![](https://cdn.nlark.com/yuque/0/2021/webp/97322/1611060615361-f1cfc2d6-b27c-48eb-bf41-406b3f485b56.webp#align=left&display=inline&height=402&originHeight=641&originWidth=1080&size=0&status=done&style=none&width=677)
+
+ 
 图1-1 JADX-GUI软件打开的反编译代码
 通过图1-1我们能看三个函数分别是构造函数`a()`、普通函数`a()`和`b()`。诸如这种普通函数会特别多，那我们在本小章节中尝试`hook`普通函数、查看函数中的参数的具体值。
 在尝试写`FRIDA HOOK`脚本之前咱们先来看看需要`hook`的代码吧~，`Ordinary_Class`类中有四个函数，都是很普通的函数，`add`函数的功能也很简单，参数`a`+`b`；sub函数功能是参数`a`-`b`；而`getNumber`只返回`100`；`getString`方法返回了 `getString()`+参数的`str`。见下图1-2。
+
+ 
 ![](https://cdn.nlark.com/yuque/0/2021/webp/97322/1611060615508-3b185496-379a-408f-82d5-71fa05ebd872.webp#align=left&display=inline&height=529&originHeight=353&originWidth=452&size=0&status=done&style=none&width=677)
+
+ 
 图1-2 反编译的Ordinary_Class类的代码
 然后咱们再看`MainActivity`中的编写的代码，通过反编译出来的代码一共有四个按钮（`Button`），当`btn_add`点击时会运行`Ordinary_Class`类中`add`方法，计算`100+200`的结果，通过`String.valueOf`函数把计算结构转字符串然后通过`Toast`弹出信息；点击`btn_sub`按钮的时候触发点击事件会运行`Ordinary_Class`类中`sub`方法，计算`100-100`的结果，通过`String.valueOf`函数把计算结构转字符串然后通过`Toast`弹出信息。在`MainActivity`类中的`onCreate`方法中的四个按钮分别对应情况是`ADD`按钮对应`btn_add`点击事件，`SUB`对应`btn_sub`的点击事件。见下图1-3。
+
+ 
 ![](https://cdn.nlark.com/yuque/0/2021/webp/97322/1611060615541-95fdab89-70f4-40b9-ba30-f935a6b653ca.webp#align=left&display=inline&height=496&originHeight=582&originWidth=795&size=0&status=done&style=none&width=677)
+
+ 
 图1-3 MainActivity中的编写的代码
 按照正常流程当我们点击`ADD`的按钮界面会弹出一条信息显示，其中的值是`300`，因为我们在`ADD`的点击事件中添加了`Toast`，将`ADD`方法运行的结果放在`Toast`参数中，通过它显示了我们的计算结果；而`SUB`函数会显示`0`，见下图1-4，图1-5。
+
+ 
 ![](https://cdn.nlark.com/yuque/0/2021/webp/97322/1611060615312-4985df3b-d2d5-4f71-b0bf-5f3b50e87253.webp#align=left&display=inline&height=1207&originHeight=938&originWidth=526&size=0&status=done&style=none&width=677)
+
+ 
 图1-4 点击ADD按钮时显示的结果
+
+ 
 ![](https://cdn.nlark.com/yuque/0/2021/webp/97322/1611060615492-05503ead-d5cd-468c-9a6d-53741844f751.webp#align=left&display=inline&height=1202&originHeight=939&originWidth=529&size=0&status=done&style=none&width=677)
+
+ 
 图1-5 点击SUB按钮时显示的结果
 我们现在知道已经知道它的运行流程以及函数的执行结果和所填写的参数，我们现在来正式编写一个基本的使用`Frida`钩子来拦截图1-2中`add`和`sub`函数的调用并且在终端显示每个函数所传入的参数、返回的值，开始写`roysue_0.js`：
 
@@ -191,7 +211,11 @@ public class User {
 
  
 我们可以看到`User`类中有2个成员变量分别是`age`和`name`，还有`2`个构造方法，分别是无参构造有有参构造。我们现在要做的是在`User`类进行有参实例化时查看所填入的参数分别是什么值。在图1-3中，可以看到`btn_init`的点击事件时会对`User`类进行实例化参数分别填写了`roysue`和`30`，然后再继续调用了`toString`方法把它们组合到一起并且通过`Toast`弹出信息显示值。`TEST_INTI对应btn_init`的点击事件，点击时效果见下图1-6。
+
+ 
 ![](https://cdn.nlark.com/yuque/0/2021/webp/97322/1611060615432-8a9ad67b-925f-4f27-8242-d4c557fe3e7d.webp#align=left&display=inline&height=1205&originHeight=938&originWidth=527&size=0&status=done&style=none&width=677)
+
+ 
 图1-6 点击TEST_INIT时显示的值
 
  
@@ -227,7 +251,11 @@ setTimeout(function(){
 
  
 脚本写好之后打开终端执行`frida -U com.roysue.roysueapplication -l roysue_1.js`，把刚刚写的脚本注入的目标进程，然后我们在`APP`应用中按下`TEST_INIT`按钮，注入的脚本会立即拦截构造函数并且打印2个参数的具体的值，见下图1-7。
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1611060908478-aaa263ab-9a89-4ada-bfa9-0c293e7c82f5.png#align=left&display=inline&height=222&name=image.png&originHeight=444&originWidth=807&size=210930&status=done&style=none&width=403.5)![image.gif](https://cdn.nlark.com/yuque/0/2021/gif/97322/1611060615858-57af77bc-808b-4940-a06e-6193d5e14c15.gif#align=left&display=inline&height=1&name=image.gif&originHeight=1&originWidth=1&size=70&status=done&style=none&width=1)
+
+ 
 图1-7 终端显示
 打印的值就是图1-3中所填的`roysue`和`30`，这就说明我们使用`FRIDA`钩子拦截到了`User`类的有参构造函数并且有效的打印了参数的值。需要注意的是在输入打印参数的值之后一定要记得执行原本的有参构造函数，这样程序才可以正常执行。
 
@@ -237,10 +265,18 @@ setTimeout(function(){
 
  
 在学习`HOOK`之前，咱们先了解一下什么是方法重载，方法重载是指在同一个类内定义了多个相同的方法名称，但是每个方法的参数类型和参数的个数都不同。在调用方法重载的函数编译器会根据所填入的参数的个数以及类型来匹配具体调用对应的函数。总结起来就是方法名称一样但是参数不一样。在逆向`JAVA`代码的时候时常会遇到方法重载函数，见下图1-8。
+
+ 
 ![](https://cdn.nlark.com/yuque/0/2021/webp/97322/1611060615520-e85614f1-56bb-41be-8a78-5ac928ce0e70.webp#align=left&display=inline&height=632&originHeight=853&originWidth=914&size=0&status=done&style=none&width=677)
+
+ 
 图1-8 反编译后重载函数样本代码
 在图1-8中，我们能看到一共有三个方法重载的函数，有时候实际情况甚至更多。咱们也不要怕，撸起袖子加油干。对于这种重载函数在`FRIDA`中，`js`会写`.overload`来拦截方法重载函数，当我们使用`overload`关键字的时候`FRIDA`会非常智能把当前所有的重载函数的所需要的类型打印出来。在了解了这个之后我们来开始实战使用`FRIDA`钩子拦截我们想拦截的重载函数的脚本吧！还是之前的那个`app`，还是之前的那个类，原汁原味~~，我新增了一些`add`的方法，使`add`方法重载，见下图1-9。
+
+ 
 ![](https://cdn.nlark.com/yuque/0/2021/webp/97322/1611060615468-1758aad8-72f7-4212-890c-3de091966679.webp#align=left&display=inline&height=590&originHeight=484&originWidth=555&size=0&status=done&style=none&width=677)
+
+ 
 图1-9 反编译后的`Ordinary_Class`中的重载函数样本代码
 在图1-9中`add`有三个重名的方法名称，但是参数的个数不同，在图1-3中的`btn_add`点击事件会执行拥有2个参数的方法重载的`add`函数，当我在脚本中写`Ordinary_Class.add..implementation = function (a,b)`，然后继续注入所写好的脚本，`FRIDA`在终端提示了红色的字体，一看吓一跳！但咱们仔细看，它说`add`是一个方法重载的函数，有三个参数不同的`add`函数，让我们写`.overload(xxx)`，以识别hook的到底是哪个`add`的方法重载函数。
 当我们写了这样的`js`脚本去运行的时候，`frida`提示报错了，因为有三个重载函数，我用红色的框圈出了，可以看到`frida`十分的智能，三个重载的参数类型完全一致的打印出来了，当它打印出来之后我们就可以复制它的这个智能提示的`overloadxxx`重载来修改我们自己的脚本了，进一步完善我们的脚本代码如下。
@@ -283,7 +319,11 @@ setImmediate(hook_overload);
 
  
 修改完相应的地方之后我们保存代码时终端会自动再次运行js中的代码，不得不说`frida`太强大了~，当`js`再次运行的时候我们在`app`应用中点击图1-4中`ADD`按钮时会立刻打印出结果，因为`FRIDA`钩子已经对该类中的所有的`add`函数进行了拦截，执行了自己所写的代码逻辑。点击效果如下图1-11。
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1611061016664-b97902ed-0bad-4a68-8c13-eba2726bb25e.png#align=left&display=inline&height=257&name=image.png&originHeight=514&originWidth=882&size=314428&status=done&style=none&width=441)![image.gif](https://cdn.nlark.com/yuque/0/2021/gif/97322/1611060615863-878ad90d-96bc-4781-9c29-aea136271319.gif#align=left&display=inline&height=1&name=image.gif&originHeight=1&originWidth=1&size=70&status=done&style=none&width=1)
+
+ 
 图1-11 终端显示效果
 在这一章节中我们学会了处理方法重载的函数，我们只要依据FRIDA的终端提示，将智能提示出来的代码衔接到自己的代码就能够对方法重载函数进行拦截，执行我们自己想要执行的代码。
 
@@ -338,7 +378,11 @@ setImmediate(hook_overload_1);
  
 
 当我们执行了上面写的脚本之后终端会打印调用方法之后的结果，见下图1-12。
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1611061057172-d645bb53-1577-426e-b434-2f696dfea878.png#align=left&display=inline&height=165&name=image.png&originHeight=330&originWidth=874&size=184313&status=done&style=none&width=437)![image.gif](https://cdn.nlark.com/yuque/0/2021/gif/97322/1611060615856-2c38488c-0449-489b-bf10-ee58c1c4d066.gif#align=left&display=inline&height=1&name=image.gif&originHeight=1&originWidth=1&size=70&status=done&style=none&width=1)
+
+ 
 图1-12 终端显示调用函数的结果
 因为很多时候类中的方法并不一定是静态的，所以这里提供了`2`种调用方法，第一种调用方式十分的方便，不需要实例化一个对象，再通过对象调本身的方法。但是遇到了没有`static`关键字的函数时只能使用第二种方式来实现方法调用，在这一章节中我们学会了如何自己主动去调用类中的函数了~~大家也可以尝试主动调用有参的构造函数玩玩。
 
@@ -348,7 +392,11 @@ setImmediate(hook_overload_1);
 
  
 我们上章学完了如何自己主动调用`JAVA`层的函数了，经过上章的学习我们的功夫又精进了一些~~，现在我们来深入内部修改类的对象的成员变量和返回值，打入敌人内部，提高自己的内功。现在我们来看下图1-13。
+
+ 
 ![](https://cdn.nlark.com/yuque/0/2021/webp/97322/1611060615381-7896b2cc-25c1-438a-a6c3-ba41dc53cb6e.webp#align=left&display=inline&height=476&originHeight=361&originWidth=513&size=0&status=done&style=none&width=677)
+
+ 
 图1-13 User类
 上图中的`User`类是我之前建的一个类，类中写了2个公开成员变量分别是`age`是`name`；还有`2`个方法分别是`User`的有参构造函数和一个`toString`函数打印成员变量的函数。我们要做就是在`User`类实例化的时候拦截程序并且修改掉`age`和`name`的值，从而改写成我们自己需要的值再运行程序，那我们接下开始编写`JS`脚本来修改成员变量的值。
 这段代码主要有的功能是：通过`User.$new("roysue",29)`拿到`User`类的有参数构造的实例化对象，这个恰好也是使用了上章节中学到的知识自己构建对象，这里我们也学习了如何使用FRIDA框架通过有参构造函数实例化对象，实例化之后先是调用了类本身的`toString`方法打印出未修改前的成员变量的值，打印了之后再通过`User_instance.age.value = 0;`来修改对象当前的成员变量的值，可以看到修改`age`修改为`0`，`name`修改为`roysue_123`，然后再次调用`toString`方法查看其成员变量的最新值是否已经被更改。
@@ -394,7 +442,11 @@ function hook_overload_2() {
  
 
 可以看到终端显示了原本有参构造函数的值roysue和30修改为roysue_123和0已经成功了，效果见下图1-14。
+
+ 
 ![](https://cdn.nlark.com/yuque/0/2021/webp/97322/1611060615553-8dae3bd8-fbbd-4801-834b-0dce5b22a6dd.webp#align=left&display=inline&height=276&originHeight=312&originWidth=764&size=0&status=done&style=none&width=677)
+
+ 
 图1-14 终端显示修改效果
 通过上面的学习，我们学会了如何修改类的成员变量，上个例子中是使用的有参构造函数给与成员变量赋值，通常在写代码类似这种实体类会定义相关的`get set`方法以及修饰符为私有权限，外部不可调用，这个时候他们可能会通过set方法来设置其值和`get`方法获取成员的变量的值，这个时候我们可以通过钩子拦截`set`和`get`方法自己定义值也是可以达到修改和获取的效果。现在学完了如何修改成员变量了，那我们接下来要学习如何修改函数的返回值，假设在逆向的过程中已知检测函数`A`的结果为`B`，正确结果为`C`，那我们可以强行修改函数`A`的返回值，不论在函数中执行了什么与返回结果无关，我们只要修改结果即可。
 
@@ -404,7 +456,11 @@ function hook_overload_2() {
 
  
 我在`rdinary_Class`类建立了`2`个函数分别是`isCheck`和`isCheckResult`，假设`isCheck`是一个检测方法，经过`add`运行后必然结果`2`，代表被检测到了，在`isCheckResult`方法进行了判断调用`isCheck`函数结果为`2`就是错误的，那这个时候要把`isCheck`函数或者`add`函数的结果强行改成不是`2`之后`isCheckResult`即可打印`Successful`，见下图1-15。
+
+ 
 ![](https://cdn.nlark.com/yuque/0/2021/png/97322/1611060615648-533acc83-db96-46d1-b880-c75c6c3a8c44.png#align=left&display=inline&height=382&originHeight=218&originWidth=386&size=0&status=done&style=none&width=677)
+
+ 
 图1-15 isCheck函数与isCheckResult函数
 我们现在要做的是使`sCheckResult`函数成功打印出`"Successful"`，而不是`errer`，那我们现在开始来写`js`脚本吧~~
 
@@ -441,7 +497,11 @@ function hook_overload_7() {
  
 
 上面这段代码的主要功能是：首先通过`Java.use`获取`Ordinary_Class`,因为`isCheckResult()`是静态方法，可以直接调用，在这里先调用一次，因为这样比较好看效果，第一次调用会在`Android LOG`中打印`errer`，之后紧接着利用`FRIDA`钩子对`isCheck`函数进行拦截，改掉其返回值为`123`，这样每次调用`isCheck`函数时返回值都必定会是`123`，再调用一次`isCheckResult()`方法，`isCheckResult()`方法中判断`isCheck`返回值是否等于`2`，因为我们已经重写了`isCheck`函数，所以不等于`2`，所以程序往下执行，会打印`Successful`字符串到`Android Log`中，实际运行效果见下图1-16。
+
+ 
 ![](https://cdn.nlark.com/yuque/0/2021/webp/97322/1611060615602-9528b858-520b-49bf-8dc4-9f881c4b7dcc.webp#align=left&display=inline&height=476&originHeight=749&originWidth=1066&size=0&status=done&style=none&width=677)
+
+ 
 图1-16 终端显示以及Android Log信息
 可以清晰的看到先是打印了`errer`后打印了`Successful`了，这说明我们已经成功过掉`isCheck`的判断了。这是一个小小的综合例子。建议大家多多动手尝试。
 

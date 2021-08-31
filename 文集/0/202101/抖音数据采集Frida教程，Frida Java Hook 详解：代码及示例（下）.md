@@ -8,12 +8,21 @@
 
  
 之前我们已经学习过了`HOOK`普通函数、方法重载、构造函数，现在来更深入的学习`HOOK`在`Android`逆向中，我们也会经常遇到在`Java`层的内部类。`Java`内部类函数，使得我们更难以分析代码。我们在这章节中对内部类进行一个基本了解和使用`FRIDA`对内部类进行钩子拦截处理。什么是内部类？所谓内部类就是在一个类内部进行其他类结构的嵌套操作，它的优点是内部类与外部类可以方便的访问彼此的私有域（包括私有方法、私有属性），所以`Android`中有很多的地方都会使用到内部类，我们来见一个例子也是最直观的，如下图4-17。
+
 >**了解更多短视频直播数据采集分析接口请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
 
+
+ 
 ![](https://cdn.nlark.com/yuque/0/2021/png/97322/1611142720689-457d3df0-9df4-4f2d-a37c-c0c8d4852bee.png#align=left&display=inline&height=723&originHeight=485&originWidth=454&size=0&status=done&style=none&width=677)
+
+ 
 图4-17 User类中的clz类
 在图4-17中看到`User`类中嵌套了一个`clz`，这样的操作也是屡见不鲜了。在`frida`中，我们可以使用`$`符号对起进行处理。首先打开`jadxgui`软件对代码进行反编译，反编译之后进入`User`类,下方会有一个`smali`的按钮，点击`smali`则会进入`smali`代码，进入`smali`代码直接按`ctrl+f`局部搜索字符串`clz`，因为`clz`是内部类的名称，那么就会搜到`Lcom/roysue/roysueapplication/User\$clz;`，我们将翻译成`java`代码就是：`com.roysue.roysueapplication.User\$clz`，去掉第一个字符串的`L`和`/`以及`;`就构成了内部类的具体类名了，见下图4-18。
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1611142757967-61ce029a-6212-4af2-9496-cae4a793fbbc.png#align=left&display=inline&height=339&name=image.png&originHeight=677&originWidth=1080&size=259691&status=done&style=none&width=540)![image.gif](https://cdn.nlark.com/yuque/0/2021/gif/97322/1611142720822-fa9286a5-9da0-4cee-9854-9ab4c83d9dca.gif#align=left&display=inline&height=1&name=image.gif&originHeight=1&originWidth=1&size=70&status=done&style=none&width=1)
+
+ 
 图4-18 smali代码
 经过上面的分析我们已经得知最重要的部分类的路径：`com.roysue.roysueapplication.User\$clz`，现在来对内部类进行`HOOK`，现在开始编写js脚本。
 
@@ -80,7 +89,11 @@ setTimeout(function (){
 
  
 当我们执行该脚本时，注入目标进程之后会开始调用`onMatch`函数，每次调用都会打印一次类的名称，当`onMatch`函数回调完成之后会调用一次`onComplete`函数，最后会打印出`class enuemration complete`，见下图。
+
+ 
 ![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611142720570-304d6df1-ff96-45bf-8e26-f317af8753d9.jpeg#align=left&display=inline&height=422&originHeight=674&originWidth=1080&size=0&status=done&style=none&width=677)
+
+ 
 图4-19 枚举所有类
 
  
@@ -114,7 +127,11 @@ function hook_overload_5() {
 
  
 我们先定义了一个`enumMethods`方法，其参数`targetClass`是类的路径名称，用于`Java.use`获取类对象本身，获取类对象之后再通过其`.class.getDeclaredMethods()`方法获取目标类的所有方法名称数组，当调用完了`getDeclaredMethods()`方法之后再调用`$dispose`方法释放目标类对象，返回目标类所有的方法名称、返回类型以及函数的权限，这是实现获取方法名称的核心方法，下面一个方法主要用于注入到目标进程中去执行逻辑代码，在`hook_overload_5`方法中先是使用了`Java.perform`方法，再在内部调用`enumMethods`方法获取目标类的所有方法名称、返回类型以及函数的权限，返回的是一个`Method`数组，通过`forEach`迭代器循环输出数组中的每一个值，因为其本身实际就是一个字符串所以直接输出就可以得到方法名称，脚本执行效果如下图4-20。
+
+ 
 ![image.gif](https://cdn.nlark.com/yuque/0/2021/gif/97322/1611142720823-677f9eee-794b-479d-a4b4-b9d5a0a70fec.gif#align=left&display=inline&height=1&name=image.gif&originHeight=1&originWidth=1&size=70&status=done&style=none&width=1)![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1611142910674-d05055e4-8bac-4d00-a39e-4b07db8b8f15.png#align=left&display=inline&height=168&name=image.png&originHeight=336&originWidth=1080&size=126188&status=done&style=none&width=540)
+
+ 
 图4-20 脚本执行后效果在图4-17中`clz`只有一个`toString`方法，我们填入参数为`com.roysue.roysueapplication.User$clz`，就能够定位到该类中所有的方法。
 
  
@@ -169,7 +186,11 @@ function hook_overload_8() {
 
  
 上面这段代码可以打印出`com.roysue.roysueapplication.Ordinary_Class`类中`add`方法重载的个数以及hook该类中所有的方法重载函数，现在来剖析上面的代码为什么可以对一个类中的所有的方法重载`HOOK`挂上钩子。首先我们定义了三个变量分别是`targetMethod、targetClass、targetClassMethod`，这三个变量主要于定义方法的名称、类名、以及类名+方法名的赋值，首先使用了`Java.use`获取了目标类对象，再获取重载的次数。这里详细说一下如何获取的：`var method_overload = cls[<func_name>].overloads[index];`这句代码可以看出通过`cls`索引`func_name`到类中的方法，而后面写到`overloads[index]`是指方法重载的第`index`个函数，大致意思就是返回了一个`method`对象的第`index`位置的函数。而在代码中写道：`var overloadCount = hook[targetMethod].overloads.length;`，采取的方法是先获取类中某个函数所有的方法重载个数。继续往下走，开始循环方法重载的函数，刚刚开始循环时`hook[targetMethod].overloads[i].implementation`这句对每一个重载的函数进行`HOOK`。这里也说一下`Arguments:Arguments`是`js`中的一个对象，`js`内的每个函数都会内置一个`Arguments`对象实例`arguments`，它引用着方法实参，调用其实例对象可以通过`arguments[]`下标的来引用实际元素，`arguments.length`为函数实参个数,`arguments.callee`引用函数自身。这就是为什么在该段代码中并看不到`arguments`的定义却能够直接调用的原因，因为它是内置的一个对象。好了，讲完了`arguments`咱们接着说，打印参数通过`arguments.length`来循环以及`arguments[j]`来获取实际参数的元素。那现在来看`apply`，`apply`在`js`中是怎么样的存在，`apply`的含义是：应用某一对象的一个方法，用另一个对象替换当前对象，`this[targetMethod].apply(this, arguments);`这句代码简言之就是执行了当前的`overload`方法。执行完当前的`overload`方法并且打印以及返回给真实调用的函数，这样不会使程序错误。那么最终执行效果见下图4-21：
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1611142949014-afa0258a-4e63-4dce-b5d9-59bc9a04db23.png#align=left&display=inline&height=316&name=image.png&originHeight=631&originWidth=1000&size=728858&status=done&style=none&width=500)![image.gif](https://cdn.nlark.com/yuque/0/2021/gif/97322/1611142720817-46e41ab4-fe8f-4266-9545-9e8d087103f9.gif#align=left&display=inline&height=1&name=image.gif&originHeight=1&originWidth=1&size=70&status=done&style=none&width=1)
+
+ 
 图4-21 终端显示
 可以看到成功打印了`add`函数的方法重载的数量以及`hook`打印出来的参数值、返回值！
 
@@ -215,7 +236,11 @@ s1etImmediate(hook_overload_9);
 
  
 执行脚本效果可以看到，`hook`到了`com.roysue.roysueapplication.Ordinary_Class`类中所有的函数，在执行其被`hook`拦截的方法时候，也打印出了每个方法相应的的参数以及返回值，见下图4-22。
+
+ 
 ![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1611142720564-89ba39b1-b293-4e2d-81e7-376438162f7d.jpeg#align=left&display=inline&height=539&originHeight=860&originWidth=1080&size=0&status=done&style=none&width=677)
+
+ 
 图4-22 终端运行显示效果
 
  
