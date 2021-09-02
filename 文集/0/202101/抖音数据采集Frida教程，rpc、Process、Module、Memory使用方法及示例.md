@@ -2,8 +2,11 @@
 
 
 ## 前言
-大家好，窝又来写文章了，咱们现在在这篇文章中，我们来对其官方的一些非常常用的`API`进行学习。所谓工欲善其事，必先利其器。想要好好学习`FRIDA`我们就必须对`FRIDA API`深入的学习以对其有更深的了解和使用，通常大部分核心原理也在官方`API`中写着，我们学会来使用一些案例来结合`API`的使用。<br>注意，运行以下任何代码时都需要提前启动手机中的`frida-server`文件。<br>
-<br> 
+大家好，窝又来写文章了，咱们现在在这篇文章中，我们来对其官方的一些非常常用的`API`进行学习。所谓工欲善其事，必先利其器。想要好好学习`FRIDA`我们就必须对`FRIDA API`深入的学习以对其有更深的了解和使用，通常大部分核心原理也在官方`API`中写着，我们学会来使用一些案例来结合`API`的使用。
+注意，运行以下任何代码时都需要提前启动手机中的`frida-server`文件。
+
+>**了解更多短视频直播数据采集分析接口请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+ 
 
 ## 1.1 FRIDA输出打印
 
@@ -26,8 +29,18 @@ roysue@ubuntu:~$ adb shell
 sailfish:/ $ su
 sailfish:/ $ ./data/local/tmp/frida-server
 ```
-然后执行以下代码，对目标应用`app`的进程`com.roysue.roysueapplication`使用`-l`命令注入`Chap03.js`中的代码`1-1`以及执行脚本之后的效果图`1-1`！<br>`frida -U com.roysue.roysueapplication -l Chap03.js`<br>代码1-1 代码示例<br>
-<br>![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610883807187-82f7f1a2-8024-42c0-916a-1d601d7cafef.png#align=left&display=inline&height=65&margin=%5Bobject%20Object%5D&name=image.png&originHeight=130&originWidth=376&size=30142&status=done&style=none&width=188)<br>图1-1 终端执行<br>可以到终点已经成功注入了脚本并且打印了`hello`，但是颜色不同，这是`log`的级别的原因，在`FRIDA`的`console`中有三个级别分别是`log、warn、error`。
+然后执行以下代码，对目标应用`app`的进程`com.roysue.roysueapplication`使用`-l`命令注入`Chap03.js`中的代码`1-1`以及执行脚本之后的效果图`1-1`！
+`frida -U com.roysue.roysueapplication -l Chap03.js`
+代码1-1 代码示例
+
+
+ 
+
+![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610883807187-82f7f1a2-8024-42c0-916a-1d601d7cafef.png#align=left&display=inline&height=65&name=image.png&originHeight=130&originWidth=376&size=30142&status=done&style=none&width=188)
+图1-1 终端执行
+可以到终点已经成功注入了脚本并且打印了`hello`，但是颜色不同，这是`log`的级别的原因，在`FRIDA`的`console`中有三个级别分别是`log、warn、error`。
+
+ 
 
 | 级别 | 含义 |
 | --- | --- |
@@ -37,7 +50,8 @@ sailfish:/ $ ./data/local/tmp/frida-server
 
 
 ### 1.1.2 console之hexdump
-`error`级别最为严重其`次warn`，但是一般在使用中我们只会使用`log`来输出想看的值；然后我们继续学习`console`的好兄弟，`hexdump`，其含义:打印内存中的地址，`target`参数可以是`ArrayBuffer`或者`NativePointer`,而`options`参数则是自定义输出格式可以填这几个参数`offset、lengt、header、ansi`。<br>`hexdump`代码示例以及执行效果如下。
+`error`级别最为严重其`次warn`，但是一般在使用中我们只会使用`log`来输出想看的值；然后我们继续学习`console`的好兄弟，`hexdump`，其含义:打印内存中的地址，`target`参数可以是`ArrayBuffer`或者`NativePointer`,而`options`参数则是自定义输出格式可以填这几个参数`offset、lengt、header、ansi`。
+`hexdump`代码示例以及执行效果如下。
 ```
 var libc = Module.findBaseAddress('libc.so');
 console.log(hexdump(libc, {
@@ -82,7 +96,8 @@ roysue@ubuntu:~/Desktop/Chap09$ python Chap03.py
 [object Object]
 [*] {'handle': '0xdf4f8000', 'vm': {}}
 ```
-可以看出这里两种方式输出的不同的效果，`console`直接输出了`[object Object]`，无法输出其正常的内容，因为`jni_env`实际上是一个对象，但是使用`send`的时候会自动将对象转`json`格式输出。通过对比，我们就知道`send`的好处啦~<br> 
+可以看出这里两种方式输出的不同的效果，`console`直接输出了`[object Object]`，无法输出其正常的内容，因为`jni_env`实际上是一个对象，但是使用`send`的时候会自动将对象转`json`格式输出。通过对比，我们就知道`send`的好处啦~
+ 
 
 ## 1.2 FRIDA变量类型
 学完输出之后我们来学习如何声明变量类型。
@@ -137,7 +152,14 @@ function hello_type() {
     });
 }
 ```
-代码执行效果如图1-2。<br>![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610883900001-66eb8aa2-cc05-4922-b343-d4edbc738bb8.png#align=left&display=inline&height=301&margin=%5Bobject%20Object%5D&name=image.png&originHeight=602&originWidth=1340&size=227006&status=done&style=none&width=670)<br>图1-2 Int64 API<br> 
+
+ 
+代码执行效果如图1-2。
+![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610883900001-66eb8aa2-cc05-4922-b343-d4edbc738bb8.png#align=left&display=inline&height=301&name=image.png&originHeight=602&originWidth=1340&size=227006&status=done&style=none&width=670)
+图1-2 Int64 API
+ 
+
+ 
 
 ## 1.3 RPC远程调用
 可以替换或插入的空对象，以向应用程序公开`RPC`样式的`API`。该键指定方法名称，该值是导出的函数。此函数可以返回一个纯值以立即返回给调用方，或者承诺异步返回。也就是说可以通过rpc的导出的功能使用在`python`层，使`python`层与`js`交互，官方示例代码有`Node.js`版本与`python`版本，我们在这里使用`python`版本，代码如下。
@@ -174,7 +196,14 @@ session.detach()
 ```
 
 ### 1.3.2 远程调用代码示例详解
-官方源码示例是附加在目标进程为`iTunes`，再通过将`rpc`的`./agent.js`文件读取到`source`，进行使用。我这里修改了附加的目标的进程以及直接将`rpc`的代码定义在`source`中。我们来看看这段是咋运行的，仍然先对目标进程附加，然后在写`js`中代码，也是`source`变量，通过`rpc.exports`关键字定义需要导出的两个函数，上面定义了`add`函数和`sub`函数，两个的函数写作方式不一样，大家以后写按照`add`方法写就好了，`sub`稍微有点复杂。声明完函数之后创建了一个脚本并且注入进程，加载了脚本之后可以到`print(script.exports.add(2, 3))`以及`print(script.exports.sub(5, 3))，`在`python`层直接调用。`add`的返回的结果为`5`，`sub`则是`2`，下见下图`1-3`。<br>![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610883923573-1a412add-ab15-46ce-b23b-3a5646f97a0f.png#align=left&display=inline&height=29&margin=%5Bobject%20Object%5D&name=image.png&originHeight=58&originWidth=964&size=40169&status=done&style=none&width=482)<br>图1-3 执行python脚本<br> 
+
+ 
+官方源码示例是附加在目标进程为`iTunes`，再通过将`rpc`的`./agent.js`文件读取到`source`，进行使用。我这里修改了附加的目标的进程以及直接将`rpc`的代码定义在`source`中。我们来看看这段是咋运行的，仍然先对目标进程附加，然后在写`js`中代码，也是`source`变量，通过`rpc.exports`关键字定义需要导出的两个函数，上面定义了`add`函数和`sub`函数，两个的函数写作方式不一样，大家以后写按照`add`方法写就好了，`sub`稍微有点复杂。声明完函数之后创建了一个脚本并且注入进程，加载了脚本之后可以到`print(script.exports.add(2, 3))`以及`print(script.exports.sub(5, 3))，`在`python`层直接调用。`add`的返回的结果为`5`，`sub`则是`2`，下见下图`1-3`。
+![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610883923573-1a412add-ab15-46ce-b23b-3a5646f97a0f.png#align=left&display=inline&height=29&name=image.png&originHeight=58&originWidth=964&size=40169&status=done&style=none&width=482)
+图1-3 执行python脚本
+ 
+
+ 
 
 ## 1.4 Process对象
 我们现在来介绍以及使用一些`Process`对象中比较常用的`api`~
@@ -186,7 +215,8 @@ session.detach()
 `Process.isDebuggerAttached()`：检测当前是否对目标程序已经附加
 
 ### 1.4.3 Process.enumerateModules()
-枚举当前加载的模块，返回模块对象的数组。<br>`Process.enumerateModules()`会枚举当前所有已加载的`so`模块，并且返回了数组`Module`对象，`Module`对象下一节我们来详细说，在这里我们暂时只使用`Module`对象的`name`属性。
+枚举当前加载的模块，返回模块对象的数组。
+`Process.enumerateModules()`会枚举当前所有已加载的`so`模块，并且返回了数组`Module`对象，`Module`对象下一节我们来详细说，在这里我们暂时只使用`Module`对象的`name`属性。
 ```python
 function frida_Process() {
     Java.perform(function () {
@@ -198,7 +228,13 @@ function frida_Process() {
 }
 setImmediate(frida_Process,0);
 ```
-我来们开看看这段`js`代码写了啥：在`js`中能够直接使用`Process`对象的所有`api`，调用了`Process.enumerateModules()`方法之后会返回一个数组，数组中存储N个叫Module的对象，既然已经知道返回了的是一个数组，很简单我们就来`for`循环它便是，这里我使用下标的方式调用了`Module`对象的`name`属性，`name`是`so`模块的名称。见下图`1-4`。<br>![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610884271081-ed4f53d0-154e-4690-b527-a5ef774370a5.png#align=left&display=inline&height=552&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1104&originWidth=1582&size=498654&status=done&style=none&width=791)<br>图1-4 终端输出了所有已加载的so
+
+ 
+我来们开看看这段`js`代码写了啥：在`js`中能够直接使用`Process`对象的所有`api`，调用了`Process.enumerateModules()`方法之后会返回一个数组，数组中存储N个叫Module的对象，既然已经知道返回了的是一个数组，很简单我们就来`for`循环它便是，这里我使用下标的方式调用了`Module`对象的`name`属性，`name`是`so`模块的名称。见下图`1-4`。
+![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610884271081-ed4f53d0-154e-4690-b527-a5ef774370a5.png#align=left&display=inline&height=552&name=image.png&originHeight=1104&originWidth=1582&size=498654&status=done&style=none&width=791)
+图1-4 终端输出了所有已加载的so
+
+ 
 
 ### 1.4.4 Process.enumerateThreads()
 `Process.enumerateThreads()`：枚举当前所有的线程，返回包含以下属性的对象数组：
@@ -224,10 +260,17 @@ function frida_Process() {
 }
 setImmediate(frida_Process,0);
 ```
-获取当前是所有线程之后返回了一个数组，然后循环输出它的值，如下图`1-5`。<br>![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610884317188-25ef4f0a-11de-4275-9a99-9a06930813d4.png#align=left&display=inline&height=604&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1208&originWidth=2768&size=1058878&status=done&style=none&width=1384)<br>图1-4 终端执行
+
+ 
+获取当前是所有线程之后返回了一个数组，然后循环输出它的值，如下图`1-5`。
+![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610884317188-25ef4f0a-11de-4275-9a99-9a06930813d4.png#align=left&display=inline&height=604&name=image.png&originHeight=1208&originWidth=2768&size=1058878&status=done&style=none&width=1384)
+图1-4 终端执行
+
+ 
 
 ### 1.4.5 Process.getCurrentThreadId()
-`Process.getCurrentThreadId()`：获取此线程的操作系统特定 `ID` 作为数字<br> 
+`Process.getCurrentThreadId()`：获取此线程的操作系统特定 `ID` 作为数字
+ 
 
 ## 1.5 Module对象
 3.4章节中`Process.EnumererateModules()`方法返回了就是一个`Module`对象，咱们这里来详细说说`Module`对象，先来瞧瞧它都有哪些属性。
@@ -254,7 +297,8 @@ setImmediate(frida_Process,0);
 
 
 ### 1.5.3 Module.load()
-在`frida-12-5`版本中更新了该`API`，主要用于加载指定`so`文件，返回一个`Module`对象。<br>使用代码示例如下：
+在`frida-12-5`版本中更新了该`API`，主要用于加载指定`so`文件，返回一个`Module`对象。
+使用代码示例如下：
 ```python
 function frida_Module() {
     Java.perform(function () {
@@ -400,7 +444,8 @@ address: 0xf591c7cc
 ```
 
 ### 1.5.8 Module.findExportByName(exportName), Module.getExportByName(exportName)
-返回`so`文件中`Export`函数库中函数名称为`exportName`函数的绝对地址。<br>代码示例如下。
+返回`so`文件中`Export`函数库中函数名称为`exportName`函数的绝对地址。
+代码示例如下。
 ```python
 function frida_Module() {
     Java.perform(function () {
@@ -416,7 +461,8 @@ Java_com_roysue_roysueapplication_hellojni_getStr address: 0xdf2d413d
 ```
 
 ### 1.5.9 Module.findBaseAddress(name)、Module.getBaseAddress(name)
-返回`name`模块的基地址。<br>代码示例如下。
+返回`name`模块的基地址。
+代码示例如下。
 ```python
 function frida_Module() {
     Java.perform(function () {
@@ -436,7 +482,15 @@ so address: 0xdf2d3000
 `Memory`的一些`API`通常是对内存处理，譬如`Memory.copy()`复制内存，又如`writeByteArray`写入字节到指定内存中，那我们这章中就是学习使用`Memory API`向内存中写入数据、读取数据。
 
 ### 1.6.1 Memory.scan搜索内存数据
-其主要功能是搜索内存中以`address`地址开始，搜索长度为`size`，需要搜是条件是`pattern，callbacks`搜索之后的回调函数；此函数相当于搜索内存的功能。<br>我们来直接看例子，然后结合例子讲解，如下图`1-5`。<br>[![](https://cdn.nlark.com/yuque/0/2021/png/97322/1610883736226-46694294-3348-46bb-9c12-acff3e910faa.png#align=left&display=inline&height=557&margin=%5Bobject%20Object%5D&originHeight=557&originWidth=1318&size=0&status=done&style=none&width=1318)](https://p0.ssl.qhimg.com/t012b2f2c69c430786a.png)<br>图1-5 IDA中so文件某处数据<br>如果我想搜索在内存中`112A`地址的起始数据要怎么做，代码示例如下。
+
+ 
+其主要功能是搜索内存中以`address`地址开始，搜索长度为`size`，需要搜是条件是`pattern，callbacks`搜索之后的回调函数；此函数相当于搜索内存的功能。
+我们来直接看例子，然后结合例子讲解，如下图`1-5`。
+[![](https://cdn.nlark.com/yuque/0/2021/png/97322/1610883736226-46694294-3348-46bb-9c12-acff3e910faa.png#align=left&display=inline&height=557&originHeight=557&originWidth=1318&size=0&status=done&style=none&width=1318)](https://p0.ssl.qhimg.com/t012b2f2c69c430786a.png)
+图1-5 IDA中so文件某处数据
+如果我想搜索在内存中`112A`地址的起始数据要怎么做，代码示例如下。
+
+ 
 ```python
 function frida_Memory() {
     Java.perform(function () {
@@ -466,10 +520,20 @@ function frida_Memory() {
 }
 setImmediate(frida_Memory,0);
 ```
-先来看看回调函数的含义，`onMatch：function(address，size)`：使用包含作为`NativePointer`的实例地址的`address`和指定大小为数字的`size`调用，此函数可能会返回字符串`STOP`以提前取消内存扫描。`onError：Function(Reason)`：当扫描时出现内存访问错误时使用原因调用。`onComplete：function()`：当内存范围已完全扫描时调用。<br>我们来来说上面这段代码做了什么事情：搜索`libhello.so`文件在内存中的数据，搜索以`pattern`条件的在内存中能匹配的数据。搜索到之后根据回调函数返回数据。<br>我们来看看执行之后的效果图`1-6`。<br>![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610884415145-6d7374ae-d6ab-472c-936d-2b32aa3e7ddf.png#align=left&display=inline&height=239&margin=%5Bobject%20Object%5D&name=image.png&originHeight=478&originWidth=1488&size=245241&status=done&style=none&width=744)<br>图1-6 终端执行<br>我们要如何验证搜索到底是不是图`1-5`中`112A`地址，其实很简单。`so`的基址是`0xdf2d3000`，而搜到的地址是`0xdf2d412a`，我们只要`df2d412a-df2d3000=112A`。就是说我们已经搜索到了！
+
+ 
+先来看看回调函数的含义，`onMatch：function(address，size)`：使用包含作为`NativePointer`的实例地址的`address`和指定大小为数字的`size`调用，此函数可能会返回字符串`STOP`以提前取消内存扫描。`onError：Function(Reason)`：当扫描时出现内存访问错误时使用原因调用。`onComplete：function()`：当内存范围已完全扫描时调用。
+我们来来说上面这段代码做了什么事情：搜索`libhello.so`文件在内存中的数据，搜索以`pattern`条件的在内存中能匹配的数据。搜索到之后根据回调函数返回数据。
+我们来看看执行之后的效果图`1-6`。
+![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1610884415145-6d7374ae-d6ab-472c-936d-2b32aa3e7ddf.png#align=left&display=inline&height=239&name=image.png&originHeight=478&originWidth=1488&size=245241&status=done&style=none&width=744)
+图1-6 终端执行
+我们要如何验证搜索到底是不是图`1-5`中`112A`地址，其实很简单。`so`的基址是`0xdf2d3000`，而搜到的地址是`0xdf2d412a`，我们只要`df2d412a-df2d3000=112A`。就是说我们已经搜索到了！
+
+ 
 
 ### 1.6.2 搜索内存数据Memory.scanSync
-功能与`Memory.scan`一样，只不过它是返回多个匹配到条件的数据。<br>代码示例如下。
+功能与`Memory.scan`一样，只不过它是返回多个匹配到条件的数据。
+代码示例如下。
 ```python
 function frida_Memory() {
     Java.perform(function () {
@@ -485,7 +549,8 @@ scanSync:[{"address":"0xdf2d412a","size":6}]
 ```
 
 ### 1.6.3 内存分配Memory.alloc
-在目标进程中的堆上申请`size`大小的内存，并且会按照`Process.pageSize`对齐，返回一个`NativePointer`，并且申请的内存如果在`JavaScript`里面没有对这个内存的使用的时候会自动释放的。也就是说，如果你不想要这个内存被释放，你需要自己保存一份对这个内存块的引用。<br>使用案例如下
+在目标进程中的堆上申请`size`大小的内存，并且会按照`Process.pageSize`对齐，返回一个`NativePointer`，并且申请的内存如果在`JavaScript`里面没有对这个内存的使用的时候会自动释放的。也就是说，如果你不想要这个内存被释放，你需要自己保存一份对这个内存块的引用。
+使用案例如下
 ```python
 function frida_Memory() {
     Java.perform(function () {
@@ -500,7 +565,12 @@ function frida_Memory() {
 }
 setImmediate(frida_Memory,0);
 ```
-以上代码在目标进程中申请了`10`字节的空间~<br>可以看到在`0xdfe4cd40`处申请了`10`个字节内存空间~<br>也可以使用：<br>`Memory.allocUtf8String(str)` 分配utf字符串<br>`Memory.allocUtf16String` 分配utf16字符串<br>`Memory.allocAnsiString` 分配ansi字符串
+以上代码在目标进程中申请了`10`字节的空间~
+可以看到在`0xdfe4cd40`处申请了`10`个字节内存空间~
+也可以使用：
+`Memory.allocUtf8String(str)` 分配utf字符串
+`Memory.allocUtf16String` 分配utf16字符串
+`Memory.allocAnsiString` 分配ansi字符串
 
 ### 1.6.4 内存复制Memory.copy
 如同`c api memcp`一样调用，使用案例如下。
@@ -591,10 +661,10 @@ setImmediate(frida_Memory,0);
  
 
 ## 结语
-在这篇中我们学会了在FRIDACLI中如何输出想要输出格式，也学会如何声明变量，一步步的学习。在逐步的学习的过程，总是会遇到不同的问题。歌曲<奇迹再现>我相信你一定听过吧~，新的风暴已经出现,怎么能够停止不前..遇到问题不要怕，总会解决的。<br>
+在这篇中我们学会了在FRIDACLI中如何输出想要输出格式，也学会如何声明变量，一步步的学习。在逐步的学习的过程，总是会遇到不同的问题。歌曲<奇迹再现>我相信你一定听过吧~，新的风暴已经出现,怎么能够停止不前..遇到问题不要怕，总会解决的。
 
 
->
-> 短视频、直播电商数据采集、分析服务，请联系微信：1764328791
-> 免责声明：本文档仅供学习与参考，请勿用于非法用途！否则一切后果自负。
-> 
+
+___________________ 
+
+免责申明：此内容仅供学习交流使用，若侵犯贵方权益，请联系作者删除 
