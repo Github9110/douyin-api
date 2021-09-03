@@ -1,4 +1,4 @@
-# 抖音直播间数据采集，ProtoBuf + gRPC 分析请求头
+# 抖音直播间弹幕采集，ProtoBuf + gRPC 分析请求头
 
 
 
@@ -113,7 +113,11 @@ Channel channel = ClientInterceptors.intercept(managedChannel, interceptor);
  
 
  
+
+ 
 [![](https://cdn.nlark.com/yuque/0/2021/png/97322/1612183626152-cf7623fb-cc84-488e-ab61-533bb067b6a8.png#align=left&display=inline&height=128&originHeight=128&originWidth=1298&size=0&status=done&style=none&width=1298)](https://static.zhangkunzhi.com/typecho/2020/11/25/75898451902823/1606275898.png)
+
+ 
 
  
 
