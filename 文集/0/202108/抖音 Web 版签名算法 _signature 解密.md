@@ -20,8 +20,16 @@
 **​**
 
 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628297413952-7828f14c-c89c-483c-8a21-84630a584575.png#clientId=u0ad31618-4a4e-4&from=paste&height=377&id=u99c95100&name=image.png&originHeight=753&originWidth=1200&originalType=binary&ratio=1&size=609666&status=done&style=none&taskId=ua72d4164-3767-4b7c-8d17-b797b5de054&width=600)
+
+ 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628297427636-fc5d8589-1d64-4c2a-9e25-ef97dcb57bb4.png#clientId=u0ad31618-4a4e-4&from=paste&height=314&id=uae39544f&name=image.png&originHeight=627&originWidth=1200&originalType=binary&ratio=1&size=183470&status=done&style=none&taskId=u357f8870-c71e-4c5b-ba69-176b6717dc9&width=600)
+
+ 
 
 
 
@@ -37,10 +45,26 @@
 
 
 **3、定位 _signature 签名算法**
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628297439430-5fba546e-1718-449a-b30c-17c4108fd128.png#clientId=u0ad31618-4a4e-4&from=paste&height=432&id=uf33f26c0&name=image.png&originHeight=864&originWidth=1200&originalType=binary&ratio=1&size=438523&status=done&style=none&taskId=u0a8c5619-2c45-4e42-9bad-d1c97ee9249&width=600)
+
+ 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628297447009-24b3eef9-86be-4094-bc04-d90ef603618e.png#clientId=u0ad31618-4a4e-4&from=paste&height=435&id=ue7839035&name=image.png&originHeight=869&originWidth=1200&originalType=binary&ratio=1&size=451625&status=done&style=none&taskId=u625a3871-9588-41be-b098-4a833b30f7d&width=600)
+
+ 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628297454770-068572a9-c11f-4d03-b208-30bff69c8685.png#clientId=u0ad31618-4a4e-4&from=paste&height=441&id=ue14b522b&name=image.png&originHeight=882&originWidth=1200&originalType=binary&ratio=1&size=498223&status=done&style=none&taskId=ubedf48d5-5c81-49fa-aadb-6a1bff187cc&width=600)
+
+ 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628297461971-67ac0d12-de36-4696-bb30-8b0c984fcf3a.png#clientId=u0ad31618-4a4e-4&from=paste&height=441&id=u99cd70ef&name=image.png&originHeight=882&originWidth=1200&originalType=binary&ratio=1&size=405831&status=done&style=none&taskId=u72af0f0b-2d64-49d0-adcd-eabf5e8d426&width=600)
+
+ 
 
 
 
@@ -82,5 +106,6 @@ global.navigator = {
 
 
 
-___________________
-免责申明：此内容仅供学习交流使用，若侵犯贵公司的权益，联系作者删除
+___________________ 
+
+免责申明：此内容仅供学习交流使用，若侵犯贵方权益，请联系作者删除 
