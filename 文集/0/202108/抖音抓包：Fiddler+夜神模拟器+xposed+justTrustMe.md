@@ -21,7 +21,11 @@
 ​
 
 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628553927123-22e17516-b6fb-4087-9090-5aca6137fe5c.png#clientId=u6c97f90f-91ba-4&from=paste&height=321&id=ufb9ce517&name=image.png&originHeight=642&originWidth=1832&originalType=binary&ratio=1&size=73865&status=done&style=none&taskId=u840955ac-d548-49d6-bc84-18e46493a8e&width=916)
+
+ 
 ​
 
 
@@ -29,7 +33,11 @@
 ​
 
 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628553943345-157e00dd-109a-4be3-a83f-0e477fe34340.png#clientId=u6c97f90f-91ba-4&from=paste&height=223&id=ua96ae826&name=image.png&originHeight=446&originWidth=737&originalType=binary&ratio=1&size=28100&status=done&style=none&taskId=ua2acc095-1869-40a3-9144-60cf81c2b44&width=368.5)
+
+ 
 ​
 
 
@@ -37,7 +45,11 @@
 ​
 
 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628553973887-0c24b840-f872-4fda-aad5-e8cb495dd390.png#clientId=u6c97f90f-91ba-4&from=paste&height=557&id=udaad19fd&name=image.png&originHeight=1114&originWidth=1566&originalType=binary&ratio=1&size=186122&status=done&style=none&taskId=u7337e10b-ddaf-4089-aa8e-25be6eca80d&width=783)
+
+ 
 ​
 
 
@@ -49,7 +61,11 @@
 ​
 
 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628554001926-62c2c91b-c1d2-4f4b-91e2-6d8995929781.png#clientId=u6c97f90f-91ba-4&from=paste&height=405&id=u83fa5498&name=image.png&originHeight=810&originWidth=385&originalType=binary&ratio=1&size=62983&status=done&style=none&taskId=ub9f27855-fd69-4ec9-b4f9-b80118c3914&width=192.5)
+
+ 
 ​
 
 
@@ -77,7 +93,11 @@
 ​
 
 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628554035780-1b912e79-49c7-4f29-95ff-4d12ed118a1f.png#clientId=u6c97f90f-91ba-4&from=paste&height=264&id=u7b69ee54&name=image.png&originHeight=527&originWidth=793&originalType=binary&ratio=1&size=33072&status=done&style=none&taskId=u8211309b-ad42-4651-9533-e4689c3cd11&width=396.5)
+
+ 
 ​
 
 
@@ -85,7 +105,11 @@
 ​
 
 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628554065574-17359b21-acdc-4ff9-9598-db7c58a6230b.png#clientId=u6c97f90f-91ba-4&from=paste&height=258&id=ua1a71ba0&name=image.png&originHeight=515&originWidth=785&originalType=binary&ratio=1&size=36298&status=done&style=none&taskId=uf142610b-5cf8-4762-90e3-2b87bf512b7&width=392.5)
+
+ 
 ​
 
 
@@ -96,7 +120,11 @@ Xposed 框架是一款可以在不修改 APK 的情况下影响程序运行（�
 
 
 将软件拖到上面的手机模拟器中安装，安装后如图点击下载xposed框架：
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628554088449-33fc5e81-625b-4d8f-b9ab-ada35b08039b.png#clientId=u6c97f90f-91ba-4&from=paste&height=394&id=ue1328cff&name=image.png&originHeight=787&originWidth=1386&originalType=binary&ratio=1&size=101567&status=done&style=none&taskId=u5c193161-8a46-4c6d-bf38-3d30ef60139&width=693)
+
+ 
 ​
 
 
@@ -114,7 +142,11 @@ Xposed 框架是一款可以在不修改 APK 的情况下影响程序运行（�
 ​
 
 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628554144031-a73949c6-3884-468d-8462-bae6aa0ec76e.png#clientId=u6c97f90f-91ba-4&from=paste&height=346&id=uc1cc41a1&name=image.png&originHeight=692&originWidth=1151&originalType=binary&ratio=1&size=29874&status=done&style=none&taskId=u34b90627-8d13-4467-b644-4c460e8d7ef&width=575.5)
+
+ 
 ​
 
 
@@ -122,7 +154,11 @@ Xposed 框架是一款可以在不修改 APK 的情况下影响程序运行（�
 ​
 
 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628554159796-d36008d8-166a-488f-911c-2eeec648e899.png#clientId=u6c97f90f-91ba-4&from=paste&height=400&id=ue36f9718&name=image.png&originHeight=800&originWidth=1410&originalType=binary&ratio=1&size=54135&status=done&style=none&taskId=u9105a511-15a2-406c-a48e-c95ad9affba&width=705)
+
+ 
 ​
 
 
@@ -130,7 +166,11 @@ Xposed 框架是一款可以在不修改 APK 的情况下影响程序运行（�
 ​
 
 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628554173892-73e86d47-c97f-4163-a5e4-9d83d17e31a8.png#clientId=u6c97f90f-91ba-4&from=paste&height=373&id=ub304b0c8&name=image.png&originHeight=746&originWidth=959&originalType=binary&ratio=1&size=56200&status=done&style=none&taskId=u2635cbae-359f-49ef-95fa-d1d77ab3953&width=479.5)
+
+ 
 ​
 
 
@@ -144,7 +184,11 @@ Xposed 框架是一款可以在不修改 APK 的情况下影响程序运行（�
 ​
 
 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628554189478-77c97206-30dd-4c63-a5f0-39e4ed1e5f3f.png#clientId=u6c97f90f-91ba-4&from=paste&height=431&id=u9a81b413&name=image.png&originHeight=861&originWidth=1306&originalType=binary&ratio=1&size=118413&status=done&style=none&taskId=u6a18096f-373e-404c-9ef4-68a7f39be85&width=653)
+
+ 
 ​
 
 
@@ -152,7 +196,11 @@ Xposed 框架是一款可以在不修改 APK 的情况下影响程序运行（�
 ​
 
 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628554205353-af890b8d-b4d4-46d3-816c-47e7a2eddc35.png#clientId=u6c97f90f-91ba-4&from=paste&height=321&id=u8b4ee72b&name=image.png&originHeight=641&originWidth=978&originalType=binary&ratio=1&size=42478&status=done&style=none&taskId=u747f0649-6abc-43f1-bf37-afcb644fea5&width=489)
+
+ 
 ​
 
 
@@ -161,13 +209,21 @@ Xposed 框架是一款可以在不修改 APK 的情况下影响程序运行（�
 ​
 
 
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628554222565-06dcd808-0008-4039-a2ce-41a2d8d49ab3.png#clientId=u6c97f90f-91ba-4&from=paste&height=296&id=u892f7eb9&name=image.png&originHeight=591&originWidth=350&originalType=binary&ratio=1&size=436570&status=done&style=none&taskId=ueca4fab7-ac0b-4d45-8f0c-de424d27d1e&width=175)
+
+ 
 ​
 
 
 
 抖音这个app其实一开始是叫做A.me，也就是英文Awesome Me 崇拜我的意思，后来改名为抖音。抓到的请求aweme开头的就是抖音的请求了。
+
+ 
 ![image.png](https://cdn.nlark.com/yuque/0/2021/png/97322/1628554239190-5a6d5d27-ee9d-45cb-a108-ec2a8ec657ca.png#clientId=u6c97f90f-91ba-4&from=paste&height=472&id=u1ea322f3&name=image.png&originHeight=944&originWidth=1691&originalType=binary&ratio=1&size=289428&status=done&style=none&taskId=u99a2c052-efa8-4a45-be93-fed7d3573cc&width=845.5)
+
+ 
 
 
 
@@ -179,3 +235,7 @@ Xposed 框架是一款可以在不修改 APK 的情况下影响程序运行（�
 
 [
 ](https://blog.csdn.net/qq_33697094/article/details/111596004)
+
+___________________ 
+
+免责申明：此内容仅供学习交流使用，若侵犯贵方权益，请联系作者删除 
