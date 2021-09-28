@@ -1,6 +1,6 @@
 # 抖音爬虫结合AndServer，实现抖音X-Gorgon算法，设备id生成接口
 
-<a name="DKlmz"></a>
+
 # 结合AndServer实现接口开发
 - Gradle引入依赖
 ```
@@ -9,6 +9,8 @@ annotationProcessor 'com.yanzhenjie.andserver:processor:2.0.5'
 implementation 'com.alibaba:fastjson:1.1.71.android'
 ```
  
+>**短视频直播数据采集接口SDK请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR) 
+
 
 - 接口类编写
 ```
@@ -589,19 +591,34 @@ private Thread.UncaughtExceptionHandler handler = (t, e) -> {
         restartApp(); //发生崩溃异常时,重启应用
     };
 ```
-<a name="Xj2mx"></a>
+
 ## 测试接口
 
-- getDeviceData<br />![](https://cdn.nlark.com/yuque/0/2020/png/97322/1607219197331-e1cbb75b-282a-4771-bb09-504e899e682e.png#align=left&display=inline&height=488&margin=%5Bobject%20Object%5D&originHeight=488&originWidth=1240&size=0&status=done&style=none&width=1240)
-- getQuery<br />![](https://cdn.nlark.com/yuque/0/2020/png/97322/1607219197378-6a801f34-39bc-4787-9718-68fa04044a03.png#align=left&display=inline&height=368&margin=%5Bobject%20Object%5D&originHeight=368&originWidth=1240&size=0&status=done&style=none&width=1240)
-- request<br />![](https://cdn.nlark.com/yuque/0/2020/png/97322/1607219197321-736535d7-cdf0-44a9-af65-f96c65dd1fe3.png#align=left&display=inline&height=644&margin=%5Bobject%20Object%5D&originHeight=644&originWidth=1240&size=0&status=done&style=none&width=1240)
-<a name="CfB6V"></a>
-## Cookie获取方式
-有爬取登录接口实现的，但其实有一种简单的方式就是二维码登录，但是涉及到一些隐秘性这里就不公开说明了。<br />
-<br />
-<br />——————————————————————————————————————————
 
->
-> 短视频、直播电商数据采集、分析服务，请联系微信：1764328791
-> 免责声明：本文档仅供学习与参考，请勿用于非法用途！否则一切后果自负。
-> 
+ 
+- getDeviceData
+![](https://cdn.nlark.com/yuque/0/2020/png/97322/1607219197331-e1cbb75b-282a-4771-bb09-504e899e682e.png#align=left&display=inline&height=488&originHeight=488&originWidth=1240&size=0&status=done&style=none&width=1240)
+
+ 
+
+ 
+- getQuery
+![](https://cdn.nlark.com/yuque/0/2020/png/97322/1607219197378-6a801f34-39bc-4787-9718-68fa04044a03.png#align=left&display=inline&height=368&originHeight=368&originWidth=1240&size=0&status=done&style=none&width=1240)
+
+ 
+
+ 
+- request
+![](https://cdn.nlark.com/yuque/0/2020/png/97322/1607219197321-736535d7-cdf0-44a9-af65-f96c65dd1fe3.png#align=left&display=inline&height=644&originHeight=644&originWidth=1240&size=0&status=done&style=none&width=1240)
+
+ 
+
+## Cookie获取方式
+有爬取登录接口实现的，但其实有一种简单的方式就是二维码登录，但是涉及到一些隐秘性这里就不公开说明了。
+
+
+
+
+___________________ 
+
+免责申明：此内容仅供学习交流使用，若侵犯贵方权益，请联系作者删除 
