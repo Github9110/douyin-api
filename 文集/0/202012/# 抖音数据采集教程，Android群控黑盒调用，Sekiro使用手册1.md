@@ -4,12 +4,20 @@
 ## 0x0 前言
 之前尝试用过virjar大佬的hermesagent, 后来大佬又迭代出新的基于长链接的`Sekiro`, 一直想看都被耽搁了, 今天正好抽空尝试一下, 顺便写篇笔记, 有错误的地方大佬们请指正哈
 
-## 0x1 Sekiro介绍
-SEKIRO 是一个android下的API服务暴露框架，可以用在app逆向、app数据抓取、android群控等场景<br> <br>**和其他群控框架相比的特点如下:**
+>**了解更多短视频直播数据采集分析接口请**[点击查看接口文档](https://docs.qq.com/doc/DU3RKUFVFdVhQbXlR)  
 
-- 对网络环境要求低，sekiro使用长链接管理服务，使得Android手机可以分布于全国各地，甚至全球各地。手机掺合在普通用户群体，方便实现反抓突破，更加适合获取下沉数据。<br>不依赖hook框架，就曾经的Hermes系统来说，和xposed框架深度集成，在当今hook框架遍地开花的环境下，框架无法方便迁移。所以在Sekiro的设计中，只提供了RPC功能了。<br>
-- 纯异步调用，在Hermes和其他曾经出现过的框架中，基本都是同步调用。虽然说签名计算可以达到上百QPS，但是如果用来做业务方法调用的话，由于调用过程穿透到目标app的服务器，会有大量请求占用线程。系统吞吐存在上线(hermes系统达到2000QPS的时候，基本无法横向扩容和性能优化了)。但是Sekiro全程使用NIO，理论上其吞吐可以把资源占满。<br>
-- client实时状态，在Hermes系统我使用http进行调用转发，通过手机上报心跳感知手机存活状态。心跳时间至少20s，这导致服务器调度层面对手机在线状态感知不及时，请求过大的时候大量转发调用由于client掉线timeout。在Sekiro长链接管理下，手机掉线可以实时感知。不再出现由于框架层面机制导致timeout<br>
+## 0x1 Sekiro介绍
+SEKIRO 是一个android下的API服务暴露框架，可以用在app逆向、app数据抓取、android群控等场景
+ 
+**和其他群控框架相比的特点如下:**
+
+- 对网络环境要求低，sekiro使用长链接管理服务，使得Android手机可以分布于全国各地，甚至全球各地。手机掺合在普通用户群体，方便实现反抓突破，更加适合获取下沉数据。
+不依赖hook框架，就曾经的Hermes系统来说，和xposed框架深度集成，在当今hook框架遍地开花的环境下，框架无法方便迁移。所以在Sekiro的设计中，只提供了RPC功能了。
+
+- 纯异步调用，在Hermes和其他曾经出现过的框架中，基本都是同步调用。虽然说签名计算可以达到上百QPS，但是如果用来做业务方法调用的话，由于调用过程穿透到目标app的服务器，会有大量请求占用线程。系统吞吐存在上线(hermes系统达到2000QPS的时候，基本无法横向扩容和性能优化了)。但是Sekiro全程使用NIO，理论上其吞吐可以把资源占满。
+
+- client实时状态，在Hermes系统我使用http进行调用转发，通过手机上报心跳感知手机存活状态。心跳时间至少20s，这导致服务器调度层面对手机在线状态感知不及时，请求过大的时候大量转发调用由于client掉线timeout。在Sekiro长链接管理下，手机掉线可以实时感知。不再出现由于框架层面机制导致timeout
+
 
 **Sekiro架构**
 ```python
@@ -30,9 +38,12 @@ client:
 
 ## 0x2 服务端部署
 
-- 克隆项目: `git clone [https://github.com/virjar/sekiro.git](https://github.com/virjar/sekiro.git)`<br>
-- 修改settings.gradle的内容为: `include ':sekiro-server', ':sekiro-lib'` ,删掉appdemo防止编译它<br>
-- 启动服务器前注意事项<br>
+- 克隆项目: `git clone [https://github.com/virjar/sekiro.git](https://github.com/virjar/sekiro.git)`
+
+- 修改settings.gradle的内容为: `include ':sekiro-server', ':sekiro-lib'` ,删掉appdemo防止编译它
+
+- 启动服务器前注意事项
+
 ```python
 server端在`sekiro-server/src/main/resources/appliation.properties`中可以配置三个服务端端口, 主要服务端安全策略的出入口需要开放这个三个端口
 #tomcat 占用端口
@@ -48,7 +59,12 @@ webSocketServerPort=5603
 ```
 执行命令:`./gradlew sekiro-server:bootJar` 即可在 `sekiro-server/build/libs/sekiro-server-0.0.1-SNAPSHOT.jar`找到all-in-one的jar包
 
-- 通过`nohup java -jar sekiro-server/build/libs/sekiro-server-0.0.1-SNAPSHOT.jar >/dev/null 2>&1 &`启动server<br>![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1609674939635-64619f96-f1e7-44c1-beac-b0cd0ea2d07f.jpeg#align=left&display=inline&height=674&margin=%5Bobject%20Object%5D&originHeight=674&originWidth=1704&size=0&status=done&style=none&width=1704)
+
+ 
+- 通过`nohup java -jar sekiro-server/build/libs/sekiro-server-0.0.1-SNAPSHOT.jar >/dev/null 2>&1 &`启动server
+![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1609674939635-64619f96-f1e7-44c1-beac-b0cd0ea2d07f.jpeg#align=left&display=inline&height=674&originHeight=674&originWidth=1704&size=0&status=done&style=none&width=1704)
+
+ 
 
 ## 0x3 客户端
 
@@ -71,10 +87,16 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 
-- 再准备的一个Xposed的项目, 不会的可以先看我之前写的一篇笔记: [AndroidStudio使用Xposed](http://strivemario.work/archives/34941.html)<br>
-- 在app的build.gradle添加依赖 `implementation 'com.virjar:sekiro-api:1.0.1'`<br>
+- 再准备的一个Xposed的项目, 不会的可以先看我之前写的一篇笔记: [AndroidStudio使用Xposed](http://strivemario.work/archives/34941.html)
 
-![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1609674939166-c6649d88-d877-467f-8989-ceaafcdb9c33.jpeg#align=left&display=inline&height=408&margin=%5Bobject%20Object%5D&originHeight=408&originWidth=1150&size=0&status=done&style=none&width=1150)
+- 在app的build.gradle添加依赖 `implementation 'com.virjar:sekiro-api:1.0.1'`
+
+
+
+ 
+![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1609674939166-c6649d88-d877-467f-8989-ceaafcdb9c33.jpeg#align=left&display=inline&height=408&originHeight=408&originWidth=1150&size=0&status=done&style=none&width=1150)
+
+ 
 
 - 在Xposed的`handleLoadPackage`中启动client链接server，并添加处理事件的handler, 用于调用Add函数
 ```python
@@ -109,7 +131,8 @@ SekiroClient.start(testHost, clientId, groupName)
         });
 ```
 
-- 编译错误`More than one file was found with OS independent path`解决<br>
+- 编译错误`More than one file was found with OS independent path`解决
+
 ```python
 //build.gradle里android{}添加错误的path
  
@@ -122,9 +145,14 @@ packagingOptions {
 
 ## 0x4 尝试调用
 
-- 打开app后, 使用浏览器查看group列表是否注册成功:<br>`[your_server_ip]:[server.port]/groupList`
+- 打开app后, 使用浏览器查看group列表是否注册成功:
+`[your_server_ip]:[server.port]/groupList`
 
-![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1609674939382-668f646f-c4a2-480c-9763-8bca362f229b.jpeg#align=left&display=inline&height=480&margin=%5Bobject%20Object%5D&originHeight=480&originWidth=1394&size=0&status=done&style=none&width=1394)
+
+ 
+![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1609674939382-668f646f-c4a2-480c-9763-8bca362f229b.jpeg#align=left&display=inline&height=480&originHeight=480&originWidth=1394&size=0&status=done&style=none&width=1394)
+
+ 
 
 - 调用接口查看结果:
 ```python
@@ -132,18 +160,27 @@ packagingOptions {
  
 例子: https://x.x.x.x:5602/asyncInvoke?group=addDemoTest2&action=myAdd&arg1=300&arg2=300
 ```
-![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1609674939370-a4a10414-f8e1-4b74-a7f6-e026e1432ef4.jpeg#align=left&display=inline&height=472&margin=%5Bobject%20Object%5D&originHeight=472&originWidth=1754&size=0&status=done&style=none&width=1754)
+
+ 
+![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1609674939370-a4a10414-f8e1-4b74-a7f6-e026e1432ef4.jpeg#align=left&display=inline&height=472&originHeight=472&originWidth=1754&size=0&status=done&style=none&width=1754)
+
+ 
 
 - client的调用日志
 
-![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1609674939371-fac1384e-a6d3-4952-af96-eddf3ef8b4f2.jpeg#align=left&display=inline&height=382&margin=%5Bobject%20Object%5D&originHeight=382&originWidth=1600&size=0&status=done&style=none&width=1600)
+
+ 
+![](https://cdn.nlark.com/yuque/0/2021/jpeg/97322/1609674939371-fac1384e-a6d3-4952-af96-eddf3ef8b4f2.jpeg#align=left&display=inline&height=382&originHeight=382&originWidth=1600&size=0&status=done&style=none&width=1600)
+
+ 
 
 
 ## 感谢&参考资料
-[sekiro实践](https://www.jianshu.com/p/6b71106c45eb?from=timeline)<br>
+[sekiro实践](https://www.jianshu.com/p/6b71106c45eb?from=timeline)
 
 
->
-> 短视频、直播电商数据采集、分析服务，请联系微信：1764328791
-> 免责声明：本文档仅供学习与参考，请勿用于非法用途！否则一切后果自负。
-> 
+
+
+___________________ 
+
+免责申明：此内容仅供学习交流使用，若侵犯贵方权益，请联系作者删除 
